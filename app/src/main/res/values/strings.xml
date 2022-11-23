@@ -20,6 +20,10 @@
     <string name="saving">Saving…</string>
     <string name="saved">Saved</string>
 
+    <string name="title_hint">Title…</string>
+    <string name="body_hint">Body…</string>
+    <string name="new_tag">New tag +</string>
+
     //Constants
     <string name="foundational_skills_group">Foundational Skills (for developmental challenges)</string>
     <string name="social_skills_group">Social &amp; Emotional Learning (for all children)</string>

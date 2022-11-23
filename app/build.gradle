@@ -139,6 +139,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$androidxRoomVersion"
     implementation "androidx.room:room-ktx:$androidxRoomVersion"
     testImplementation "androidx.room:room-testing:$androidxRoomVersion"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation 'net.zetetic:android-database-sqlcipher:4.5.2'
 

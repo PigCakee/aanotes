@@ -1,9 +1,7 @@
 package com.arton.aanotes.presentation.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,10 +14,7 @@ import com.arton.aanotes.presentation.ui.AANotesApp
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import com.arton.aanotes.presentation.ui.activity.contract.AuthResultContract
 import com.arton.aanotes.presentation.ui.theme.AANotesTheme
-import com.arton.aanotes.presentation.ui.theme.BlueMain
-import com.arton.aanotes.presentation.ui.theme.White
 import com.arton.aanotes.presentation.ui.viewmodel.MainViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -4,17 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.arton.aanotes.domain.entity.NoteDto
+import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.domain.room.converter.NotesConverter
 import com.arton.aanotes.domain.room.dao.NotesDao
+import com.arton.aanotes.domain.room.dao.TagsDao
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 
 @Database(
-    entities = [NoteDto::class],
+    entities = [NoteDto::class, Tag::class],
     version = MigrationHelper.LAST_VERSION,
     exportSchema = true
 )
-//@TypeConverters(NotesConverter::class)
+@TypeConverters(NotesConverter::class)
 abstract class NotesDatabase : RoomDatabase() {
 
     companion object {
@@ -35,7 +39,7 @@ abstract class NotesDatabase : RoomDatabase() {
                     .openHelperFactory(factory)
                     .allowMainThreadQueries()
                     .addMigrations(*MigrationHelper.getMigrations())
-                    .build()
+                    .build() // TODO prepopulate db with tags
             }
 
             return requireNotNull(INSTANCE)
@@ -43,4 +47,5 @@ abstract class NotesDatabase : RoomDatabase() {
     }
 
     abstract fun notesDao(): NotesDao
+    abstract fun tagsDao(): TagsDao
 }
