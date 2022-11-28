@@ -24,6 +24,9 @@
     <string name="body_hint">Body…</string>
     <string name="new_tag">New tag +</string>
 
+    <string name="created_at">Created on %s</string>
+    <string name="edited_at">Edited on %s</string>
+
     //Constants
     <string name="foundational_skills_group">Foundational Skills (for developmental challenges)</string>
     <string name="social_skills_group">Social &amp; Emotional Learning (for all children)</string>

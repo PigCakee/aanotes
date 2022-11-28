@@ -2,24 +2,23 @@ package com.arton.aanotes.presentation.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.arton.aanotes.common.CORNERS_RADIUS_10
 import com.arton.aanotes.common.TEXT_FIELDS_WITH_FRACTION
@@ -86,4 +85,42 @@ fun AANotesTextField(
             )
         }
     }
+}
+
+@Composable
+fun CustomTextField(
+    modifier: Modifier = Modifier,
+    placeholderText: String = "Placeholder",
+    fontSize: TextUnit = MaterialTheme.typography.body2.fontSize,
+    onValueChanged: (String) -> Unit = {}
+) {
+    var text by remember { mutableStateOf("") }
+    BasicTextField(
+        modifier = modifier
+            .wrapContentWidth(),
+        value = text,
+        onValueChange = {
+            text = it
+            onValueChanged(it)
+        },
+        singleLine = true,
+        cursorBrush = SolidColor(GreyDark),
+        textStyle = LocalTextStyle.current.copy(
+            color = GreyDark,
+            fontSize = fontSize
+        ),
+        decorationBox = { innerTextField ->
+            Box(Modifier.wrapContentWidth()) {
+                if (text.isEmpty()) Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = placeholderText,
+                    style = LocalTextStyle.current.copy(
+                        color = GreyDark,
+                        fontSize = fontSize
+                    )
+                )
+                innerTextField()
+            }
+        }
+    )
 }

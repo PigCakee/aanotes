@@ -131,6 +131,25 @@ fun Editor(
                 .height(1.dp)
         )
 
+        Text(
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(horizontal = 16.dp),
+            text = stringResource(
+                id = R.string.created_at,
+                editorState.currentNote?.createdAt.toString()
+            ) + "\n" + stringResource(
+                id = R.string.edited_at,
+                editorState.currentNote?.editedAt.toString()
+            ),
+            style = TextStyle(
+                color = GreyDark,
+                fontSize = 12.sp
+            )
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -149,7 +168,6 @@ fun Editor(
                 onNewTag(Tag(name = it))
             })
         }
-        // Tags grid
     }
 }
 
