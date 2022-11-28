@@ -34,7 +34,7 @@ class EditorViewModel @Inject constructor(
                 currentNote = currentNote,
                 isSaving = false,
                 isSharingEnabled = sharingEnabled,
-                availableTags = tags
+                availableTags = tags,
             )
         }
     }

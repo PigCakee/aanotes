@@ -4,6 +4,9 @@ import androidx.compose.ui.graphics.Color
 
 val BlueMain = Color(0xFF244C93)
 val MainGrey = Color(0xFFEEEEEE)
+val GreyDark = Color(0xFF827D89)
+val TagInactive = Color(0xFFEFEEF0)
+val TagActive = BlueMain
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
