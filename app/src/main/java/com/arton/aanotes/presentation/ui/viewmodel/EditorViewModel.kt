@@ -1,5 +1,6 @@
 package com.arton.aanotes.presentation.ui.viewmodel
 
+import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arton.aanotes.domain.entity.Note
@@ -20,6 +21,18 @@ class EditorViewModel @Inject constructor(
     val editorState = editorStateFlow.asStateFlow()
 
     private var currentNote: Note? = null
+
+    private var insertTimer = object : CountDownTimer(1000L, 1000L) {
+        override fun onTick(p0: Long) {
+        }
+
+        override fun onFinish() {
+            viewModelScope.launch {
+                currentNote?.let { notesRepository.insertNote(it) }
+                editorStateFlow.update { editorState -> editorState.copy(isSaving = false, currentNote = currentNote) }
+            }
+        }
+    }
 
     private val combine = combine(
         notesRepository.tags,
@@ -55,20 +68,24 @@ class EditorViewModel @Inject constructor(
 
     fun onTitleChanged(title: String) = viewModelScope.launch {
         currentNote = currentNote?.copy(title = title, editedAt = Date(System.currentTimeMillis()))
-        currentNote?.let { notesRepository.insertNote(it) }
+        insertTimer.cancel()
+        insertTimer.start()
+        editorStateFlow.update { editorState -> editorState.copy(isSaving = true) }
     }
 
     fun onBodyChanged(body: String) = viewModelScope.launch {
         currentNote = currentNote?.copy(body = body, editedAt = Date(System.currentTimeMillis()))
-        currentNote?.let { notesRepository.insertNote(it) }
+        insertTimer.cancel()
+        insertTimer.start()
+        editorStateFlow.update { editorState -> editorState.copy(isSaving = true) }
     }
 
-    fun onTagAdded(tag: Tag) {
-
+    fun onTagAdded(tag: Tag) = viewModelScope.launch {
+        notesRepository.insertTag(tag)
     }
 
-    fun onTagRemoved(tag: Tag) {
-
+    fun onTagRemoved(tag: Tag) = viewModelScope.launch {
+        notesRepository.deleteTag(tag)
     }
 
     fun onTagCreated(tag: Tag) {

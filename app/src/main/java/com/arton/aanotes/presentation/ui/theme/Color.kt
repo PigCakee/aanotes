@@ -21,7 +21,7 @@ val Violet = Color(0xFF6200EE)
 
 val Cerulean = Color(0xFF037EA2)
 
-val Black = Color(0x61000000)
+val Black = Color(0xFF000000)
 val OpaqueBackground = Color(0x99000000)
 
 val BlackGray = Color(0xff212121)

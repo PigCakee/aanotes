@@ -2,9 +2,7 @@ package com.arton.aanotes.presentation.ui.screen.editor
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -14,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arton.aanotes.R
+import com.arton.aanotes.common.utils.formatDateShort
 import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.domain.entity.Tag
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
@@ -67,6 +66,12 @@ fun Editor(
 ) {
     val titleHint = stringResource(id = R.string.title_hint)
     val bodyHint = stringResource(id = R.string.body_hint)
+    var title by remember {
+        mutableStateOf(editorState.currentNote?.title ?: "")
+    }
+    var body by remember {
+        mutableStateOf(editorState.currentNote?.body ?: "")
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,17 +81,21 @@ fun Editor(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            value = editorState.currentNote?.title ?: "",
+            value = title,
             placeholder = {
                 Text(
                     text = titleHint,
-                    color = if (editorState.currentNote?.title.isNullOrBlank()) GreyDark else Black,
+                    color = if (title.isBlank()) GreyDark else Black,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
                 )
             },
-            onValueChange = onTitleChanged,
+            onValueChange = {
+                title = it
+                onTitleChanged(it)
+            },
             textStyle = TextStyle(
+                color = if (title.isBlank()) GreyDark else Black,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold
             ),
@@ -104,17 +113,21 @@ fun Editor(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            value = editorState.currentNote?.body ?: "",
+            value = body,
             placeholder = {
                 Text(
                     text = bodyHint,
-                    color = if (editorState.currentNote?.body.isNullOrBlank()) GreyDark else Black,
+                    color = if (body.isBlank()) GreyDark else Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
                 )
             },
-            onValueChange = onBodyChanged,
+            onValueChange = {
+                body = it
+                onBodyChanged(it)
+            },
             textStyle = TextStyle(
+                color = if (body.isBlank()) GreyDark else Black,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
             ),
@@ -131,24 +144,26 @@ fun Editor(
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 24.dp, horizontal = 16.dp)
+                .padding(horizontal = 16.dp)
                 .height(1.dp)
         )
 
         Text(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp),
             text = stringResource(
                 id = R.string.created_at,
-                editorState.currentNote?.createdAt.toString()
+                formatDateShort(editorState.currentNote?.createdAt)
             ) + "\n" + stringResource(
                 id = R.string.edited_at,
-                editorState.currentNote?.editedAt.toString()
+                formatDateShort(editorState.currentNote?.editedAt)
             ),
             style = TextStyle(
                 color = GreyDark,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                lineHeight = 20.sp
             )
         )
 
@@ -158,6 +173,7 @@ fun Editor(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
                 .wrapContentHeight(),
             crossAxisSpacing = 10.dp,
             mainAxisSpacing = 12.dp
@@ -183,7 +199,16 @@ fun PreviewEditor() {
             Editor(
                 EditorState(
                     currentNote = Note(
-                        0, "", "", Date(), Date(), tags = listOf(
+                        0,
+                        "Dentist appointment",
+                        "Make an appointment for dentist at 17:30\n" +
+                                "\n" +
+                                "And then I told her I had an early dentist appointment, and I'm hiding on your couch till she leaves.\n" +
+                                "\n" +
+                                "One day you're living your ordinary life, you're planning to go to a party, you're taking your children to school, you're making a dentist appointment.\n",
+                        Date(),
+                        Date(),
+                        tags = listOf(
                             Tag("Highly important"),
                             Tag("Very important tag"),
                         )

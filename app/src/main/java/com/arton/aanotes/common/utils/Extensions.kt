@@ -9,10 +9,7 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
-import java.time.Clock
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -83,4 +80,9 @@ fun Long.formatMinSec(): String {
                     )
         )
     }
+}
+
+const val PATTERN_DD_MMM_YYYY_HH_MM = "dd MMM yyyy H:mm"
+fun formatDateShort(date: Date?): String {
+    return if (date == null) "" else SimpleDateFormat(PATTERN_DD_MMM_YYYY_HH_MM).format(date)
 }

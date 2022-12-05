@@ -18,11 +18,14 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arton.aanotes.common.CORNERS_RADIUS_10
 import com.arton.aanotes.common.TEXT_FIELDS_WITH_FRACTION
 import com.arton.aanotes.presentation.ui.theme.*
+import com.google.relay.compose.BoxScopeInstanceImpl.align
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -96,12 +99,10 @@ fun CustomTextField(
 ) {
     var text by remember { mutableStateOf("") }
     BasicTextField(
-        modifier = modifier
-            .wrapContentWidth(),
+        modifier = modifier.wrapContentWidth(),
         value = text,
         onValueChange = {
             text = it
-            onValueChanged(it)
         },
         singleLine = true,
         cursorBrush = SolidColor(GreyDark),
@@ -110,17 +111,38 @@ fun CustomTextField(
             fontSize = fontSize
         ),
         decorationBox = { innerTextField ->
-            Box(Modifier.wrapContentWidth()) {
-                if (text.isEmpty()) Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = placeholderText,
-                    style = LocalTextStyle.current.copy(
-                        color = GreyDark,
-                        fontSize = fontSize
-                    )
+            if (text.isEmpty()) Text(
+                text = placeholderText,
+                style = LocalTextStyle.current.copy(
+                    color = GreyDark,
+                    fontSize = fontSize
                 )
-                innerTextField()
-            }
-        }
+            )
+            innerTextField()
+        },
+        keyboardActions = KeyboardActions(onDone = {
+            onValueChanged(text)
+        })
     )
+}
+
+@Preview
+@Composable
+fun PreviewCustomTextField() {
+    AANotesTheme {
+        CustomTextField(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(horizontal = 12.dp)
+                .wrapContentWidth()
+                .background(
+                    color = Color.Transparent,
+                    shape = RoundedCornerShape(100.dp)
+                ),
+            fontSize = 12.sp,
+            placeholderText = "New tag +"
+        ) {
+
+        }
+    }
 }

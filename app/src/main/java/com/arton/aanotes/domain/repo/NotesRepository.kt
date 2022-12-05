@@ -30,6 +30,14 @@ class NotesRepository @Inject constructor(
 
     suspend fun getNotes(query: String = "") = notesDao.getNotes(query).first()
 
+    suspend fun insertTag(tag: Tag) {
+        tagsDao.insertTag(tag)
+    }
+
+    suspend fun deleteTag(tag: Tag) {
+        tagsDao.deleteTag(tag)
+    }
+
     suspend fun deleteNote(note: Note) {
         notesDao.deleteNote(note.mapToDto())
     }
