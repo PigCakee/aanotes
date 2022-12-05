@@ -16,10 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.arton.aanotes.presentation.ui.AANotesAppState
 import com.arton.aanotes.presentation.ui.composable.navigation.MainSections
-import com.arton.aanotes.presentation.ui.theme.Cerulean
-import com.arton.aanotes.presentation.ui.theme.Gray
-import com.arton.aanotes.presentation.ui.theme.Transparent95
-import com.arton.aanotes.presentation.ui.theme.UiBackground
+import com.arton.aanotes.presentation.ui.theme.*
 
 @Composable
 fun BottomNavigationBar(
@@ -44,7 +41,7 @@ fun BottomNavigationBar(
                     Text(
                         text = stringResource(id = item.title),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.W400,
+                        fontWeight = FontWeight.Normal,
                         softWrap = false,
                         maxLines = 1,
                         overflow = TextOverflow.Visible
@@ -74,8 +71,8 @@ fun BottomNavigationBar(
                         restoreState = true
                     }
                 },
-                selectedContentColor = Cerulean,
-                unselectedContentColor = Gray,
+                selectedContentColor = BlueMain,
+                unselectedContentColor = GreyDark,
             )
         }
     }

@@ -2,19 +2,18 @@ package com.arton.aanotes.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arton.aanotes.data.DataStoreManager
 import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.domain.entity.Tag
 import com.arton.aanotes.domain.repo.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
-    private val notesRepository: NotesRepository,
-    dataStoreManager: DataStoreManager
+    private val notesRepository: NotesRepository
 ) : ViewModel() {
 
     private var editorStateFlow = MutableStateFlow(EditorState())
@@ -23,12 +22,21 @@ class EditorViewModel @Inject constructor(
     private var currentNote: Note? = null
 
     private val combine = combine(
-        notesRepository.notes,
         notesRepository.tags,
-        dataStoreManager.currentNoteId,
-        dataStoreManager.isSharingEnabled
-    ) { notes, tags, id, sharingEnabled ->
-        currentNote = notes.firstOrNull { it.id == id }
+        notesRepository.currentNoteId,
+        notesRepository.isSharingEnabled
+    ) { tags, id, sharingEnabled ->
+        currentNote = if (id == null) {
+            val newNote = Note(
+                id = System.currentTimeMillis(),
+                createdAt = Date(System.currentTimeMillis()),
+                editedAt = Date(System.currentTimeMillis())
+            )
+            notesRepository.setCurrentNote(newNote)
+            newNote
+        } else {
+            notesRepository.getNotes().firstOrNull { it.id == id }?.mapToEntity()
+        }
         editorStateFlow.update { editorState ->
             editorState.copy(
                 currentNote = currentNote,
@@ -45,13 +53,13 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onTitleChanged(title: String) {
-        currentNote = currentNote?.copy(title = title)
+    fun onTitleChanged(title: String) = viewModelScope.launch {
+        currentNote = currentNote?.copy(title = title, editedAt = Date(System.currentTimeMillis()))
         currentNote?.let { notesRepository.insertNote(it) }
     }
 
-    fun onBodyChanged(body: String) {
-        currentNote = currentNote?.copy(body = body)
+    fun onBodyChanged(body: String) = viewModelScope.launch {
+        currentNote = currentNote?.copy(body = body, editedAt = Date(System.currentTimeMillis()))
         currentNote?.let { notesRepository.insertNote(it) }
     }
 
@@ -63,8 +71,8 @@ class EditorViewModel @Inject constructor(
 
     }
 
-    fun onTagCreated(tagName: String) {
-        onTagAdded(Tag(tagName))
+    fun onTagCreated(tag: Tag) {
+        onTagAdded(tag)
     }
 }
 

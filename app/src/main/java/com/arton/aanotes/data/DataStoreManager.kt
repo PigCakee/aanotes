@@ -2,9 +2,7 @@ package com.arton.aanotes.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.arton.aanotes.data.DataStoreManager.PreferencesKeys.CURRENT_NOTE_ID_KEY
 import com.arton.aanotes.data.DataStoreManager.PreferencesKeys.ONBOARDING_KEY
@@ -17,7 +15,7 @@ class DataStoreManager @Inject constructor(private val context: Context) {
 
     private object PreferencesKeys {
         val ONBOARDING_KEY = booleanPreferencesKey("userToken")
-        val CURRENT_NOTE_ID_KEY = intPreferencesKey("currentNoteId")
+        val CURRENT_NOTE_ID_KEY = longPreferencesKey("currentNoteId")
         val SHARING_ENABLED_KEY = booleanPreferencesKey("sharingEnabledKey")
     }
 
@@ -29,8 +27,12 @@ class DataStoreManager @Inject constructor(private val context: Context) {
         preferences[SHARING_ENABLED_KEY] ?: false
     }
 
-    val currentNoteId: Flow<Int?> = context.dataStore.data.map { preferences: Preferences ->
+    val currentNoteId: Flow<Long?> = context.dataStore.data.map { preferences: Preferences ->
         preferences[CURRENT_NOTE_ID_KEY]
+    }
+
+    suspend fun setCurrentNoteId(id: Long) = context.dataStore.edit { preferences ->
+        preferences[CURRENT_NOTE_ID_KEY] = id
     }
 }
 

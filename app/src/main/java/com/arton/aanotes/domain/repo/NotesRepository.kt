@@ -1,10 +1,12 @@
 package com.arton.aanotes.domain.repo
 
+import com.arton.aanotes.data.DataStoreManager
 import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.domain.entity.Tag
 import com.arton.aanotes.domain.room.dao.NotesDao
 import com.arton.aanotes.domain.room.dao.TagsDao
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,7 +14,8 @@ import javax.inject.Singleton
 @Singleton
 class NotesRepository @Inject constructor(
     private val notesDao: NotesDao,
-    private val tagsDao: TagsDao
+    private val tagsDao: TagsDao,
+    private val dataStoreManager: DataStoreManager
 ) {
 
     val notes: Flow<List<Note>> = notesDao.getNotes().map { noteDtos ->
@@ -21,15 +24,23 @@ class NotesRepository @Inject constructor(
 
     val tags: Flow<List<Tag>> = tagsDao.getTags()
 
-    fun getNotes(query: String) {
-        notesDao.getNotes(query)
-    }
+    val currentNoteId = dataStoreManager.currentNoteId
 
-    fun deleteNote(note: Note) {
+    val isSharingEnabled = dataStoreManager.isSharingEnabled
+
+    suspend fun getNotes(query: String = "") = notesDao.getNotes(query).first()
+
+    suspend fun deleteNote(note: Note) {
         notesDao.deleteNote(note.mapToDto())
     }
 
-    fun insertNote(note: Note) {
+    suspend fun insertNote(note: Note) {
         notesDao.insertNote(note.mapToDto())
+    }
+
+    suspend fun setCurrentNote(note: Note) {
+        insertNote(note)
+        dataStoreManager.setCurrentNoteId(note.id)
+
     }
 }

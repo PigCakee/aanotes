@@ -34,6 +34,8 @@ class AuthRepository @Inject constructor(
         cryptoManager.encrypt(bytes = pinCode.encodeToByteArray(), fos)
     }
 
+    fun doesPinExist(context: Context) = File(context.filesDir, PIN_FILE_NAME).exists()
+
     fun clearPin(context: Context) {
         val file = File(context.filesDir, PIN_FILE_NAME)
         file.delete()

@@ -3,11 +3,11 @@ package com.arton.aanotes.domain.entity
 import java.util.*
 
 data class Note(
-    var id: Int = 0,
+    var id: Long = 0,
 
-    var title: String,
+    var title: String = "",
 
-    var body: String,
+    var body: String = "",
 
     var createdAt: Date,
 

@@ -10,12 +10,16 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.arton.aanotes.R
 import com.arton.aanotes.presentation.ui.AANotesAppState
 import com.arton.aanotes.presentation.ui.AuthDestinations.ONBOARDING_ROUTE
 import com.arton.aanotes.presentation.ui.AuthDestinations.SPLASH_ROUTE
 import com.arton.aanotes.presentation.ui.EditorDestinations
 import com.arton.aanotes.presentation.ui.MainDestinations
+import com.arton.aanotes.presentation.ui.screen.editor.EditorScreen
+import com.arton.aanotes.presentation.ui.screen.settings.SettingsScreen
+import com.arton.aanotes.presentation.ui.viewmodel.MainViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -62,8 +66,8 @@ fun AANotesNavGraph(
     appState: AANotesAppState,
     modifier: Modifier,
     startDestination: String = MainSections.EditorSection.destination,
-
-    ) {
+    mainViewModel: MainViewModel,
+) {
     AnimatedNavHost(
         navController = appState.navController,
         startDestination = startDestination,
@@ -77,13 +81,16 @@ fun AANotesNavGraph(
 
         }
         composable(MainSections.EditorSection.destination) {
-
+            EditorScreen(editorViewModel = hiltViewModel())
         }
         composable(MainSections.NotesSection.destination) {
 
         }
         composable(MainSections.SettingsSection.destination) {
-
+            SettingsScreen(
+                settingsViewModel = hiltViewModel(),
+                mainViewModel = mainViewModel
+            )
         }
     }
 }

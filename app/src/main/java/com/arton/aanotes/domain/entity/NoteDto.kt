@@ -6,8 +6,8 @@ import java.util.Date
 
 @Entity(tableName = "notes")
 data class NoteDto(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    @PrimaryKey(autoGenerate = false)
+    var id: Long = 0,
 
     var title: String,
 

@@ -12,18 +12,14 @@ import com.arton.aanotes.presentation.ui.components.AANotesSnackbar
 import com.arton.aanotes.presentation.ui.components.BottomNavigationBar
 import com.arton.aanotes.presentation.ui.composable.navigation.AANotesNavGraph
 import com.arton.aanotes.presentation.ui.theme.AANotesTheme
+import com.arton.aanotes.presentation.ui.viewmodel.MainViewModel
 
 @Composable
-fun AANotesApp() {
+fun AANotesApp(mainViewModel: MainViewModel) {
     AANotesTheme {
         val appState = rememberAANotesAppState()
 
         AANotesScaffold(
-            topBar = {
-                AANotesAppBar(onNavigationClick = {
-
-                })
-            },
             bottomBar = {
                 if (appState.shouldShowBottomBar) {
                     BottomNavigationBar(appState)
@@ -41,7 +37,8 @@ fun AANotesApp() {
             Box {
                 AANotesNavGraph(
                     appState = appState,
-                    modifier = Modifier.padding(innerPaddingModifier)
+                    modifier = Modifier.padding(innerPaddingModifier),
+                    mainViewModel = mainViewModel
                 )
             }
         }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -15,7 +16,6 @@ import androidx.compose.ui.unit.sp
 import com.arton.aanotes.R
 import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.domain.entity.Tag
-import com.arton.aanotes.presentation.ui.AANotesAppState
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
 import com.arton.aanotes.presentation.ui.components.EditorAppBar
 import com.arton.aanotes.presentation.ui.components.NewTag
@@ -31,21 +31,29 @@ import java.util.*
 
 @Composable
 fun EditorScreen(
-    appState: AANotesAppState,
     editorViewModel: EditorViewModel,
 ) {
 
-    val editorState = editorViewModel.editorState.collectAsState()
+    val editorState by editorViewModel.editorState.collectAsState()
 
     AANotesScaffold(modifier = Modifier.systemBarsPadding(), topBar = {
-        EditorAppBar(titleResId = if (editorState.value.currentNote != null) R.string.edit_note else R.string.new_note,
-            isSharingEnabled = editorState.value.isSharingEnabled,
-            isSaving = editorState.value.isSaving,
+        EditorAppBar(titleResId = if (editorState.currentNote != null) R.string.edit_note else R.string.new_note,
+            isSharingEnabled = editorState.isSharingEnabled,
+            isSaving = editorState.isSaving,
             onShareClick = {
 
             })
     }) {
-
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Editor(
+                editorState = editorState,
+                onTitleChanged = editorViewModel::onTitleChanged,
+                onBodyChanged = editorViewModel::onBodyChanged,
+                onNewTag = editorViewModel::onTagCreated,
+                onTagPressed = editorViewModel::onTagAdded
+            )
+        }
     }
 }
 
@@ -72,17 +80,15 @@ fun Editor(
             placeholder = {
                 Text(
                     text = titleHint,
-                    color = GreyDark,
+                    color = if (editorState.currentNote?.title.isNullOrBlank()) GreyDark else Black,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    lineHeight = 1.2.sp,
                 )
             },
             onValueChange = onTitleChanged,
             textStyle = TextStyle(
                 fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                lineHeight = 1.2.sp
+                fontWeight = FontWeight.Bold
             ),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Black,
@@ -102,17 +108,15 @@ fun Editor(
             placeholder = {
                 Text(
                     text = bodyHint,
-                    color = GreyDark,
+                    color = if (editorState.currentNote?.body.isNullOrBlank()) GreyDark else Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
-                    lineHeight = 1.4.sp,
                 )
             },
             onValueChange = onBodyChanged,
             textStyle = TextStyle(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
-                lineHeight = 1.4.sp
             ),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Black,

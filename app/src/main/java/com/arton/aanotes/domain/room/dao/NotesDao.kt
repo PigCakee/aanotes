@@ -15,8 +15,8 @@ interface NotesDao {
     fun getNotes(query: String = ""): Flow<List<NoteDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNote(noteDto: NoteDto)
+    suspend fun insertNote(noteDto: NoteDto)
 
     @Delete
-    fun deleteNote(noteDto: NoteDto)
+    suspend fun deleteNote(noteDto: NoteDto)
 }

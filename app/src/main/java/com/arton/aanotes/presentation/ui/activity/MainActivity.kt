@@ -21,17 +21,17 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private var needAuth: Boolean = false
+    private var needAuth: Boolean = true
 
     private val authLauncher = registerForActivityResult(AuthResultContract()) { authResult ->
         authResult?.let {
             needAuth = false
             when (it) {
                 AuthResultContract.AUTH_SUCCEEDED -> {
-                    viewModel.authorizeAction()
+                    viewModel.onAuthSucceed()
                 }
                 AuthResultContract.AUTH_FAILED -> {
-
+                    viewModel.onAuthFailed()
                 }
             }
         }
@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.mainState.collect { mainState ->
@@ -49,13 +50,21 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        setContent {
-            AANotesTheme {
-                AANotesApp()
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.action.collect { action ->
+                    action?.let {
+                        authLauncher.launch(it.second)
+                    }
+                }
             }
         }
 
-        //authLauncher.launch(AuthEvent.CreatePin())
+        setContent {
+            AANotesTheme {
+                AANotesApp(mainViewModel = viewModel)
+            }
+        }
     }
 
     override fun onResume() {
@@ -64,7 +73,11 @@ class MainActivity : ComponentActivity() {
         if (!needAuth) {
             needAuth = true
         } else {
-            authLauncher.launch(AuthEvent.Login)
+            if (!viewModel.doesPinExist(this)) {
+                authLauncher.launch(AuthEvent.CreatePin())
+            } else {
+                authLauncher.launch(AuthEvent.Login)
+            }
         }
         super.onResume()
     }
