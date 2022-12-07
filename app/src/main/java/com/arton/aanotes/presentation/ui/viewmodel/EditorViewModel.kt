@@ -29,7 +29,12 @@ class EditorViewModel @Inject constructor(
         override fun onFinish() {
             viewModelScope.launch {
                 currentNote?.let { notesRepository.insertNote(it) }
-                editorStateFlow.update { editorState -> editorState.copy(isSaving = false, currentNote = currentNote) }
+                editorStateFlow.update { editorState ->
+                    editorState.copy(
+                        isSaving = false,
+                        currentNote = currentNote
+                    )
+                }
             }
         }
     }
@@ -80,16 +85,31 @@ class EditorViewModel @Inject constructor(
         editorStateFlow.update { editorState -> editorState.copy(isSaving = true) }
     }
 
-    fun onTagAdded(tag: Tag) = viewModelScope.launch {
-        notesRepository.insertTag(tag)
+    fun onTagClicked(tag: Tag) = viewModelScope.launch {
+        val updatedTags = currentNote?.tags?.toMutableList()
+        updatedTags?.let {
+            if (it.contains(tag)) {
+                updatedTags.remove(tag)
+            } else {
+                updatedTags.add(tag)
+            }
+            currentNote = currentNote?.copy(tags = it, editedAt = Date(System.currentTimeMillis()))
+            currentNote?.let { notesRepository.insertNote(it) }
+            editorStateFlow.update { editorState ->
+                editorState.copy(
+                    isSaving = false,
+                    currentNote = currentNote
+                )
+            }
+        }
     }
 
     fun onTagRemoved(tag: Tag) = viewModelScope.launch {
         notesRepository.deleteTag(tag)
     }
 
-    fun onTagCreated(tag: Tag) {
-        onTagAdded(tag)
+    fun onTagCreated(tag: Tag) = viewModelScope.launch {
+        notesRepository.insertTag(tag)
     }
 }
 

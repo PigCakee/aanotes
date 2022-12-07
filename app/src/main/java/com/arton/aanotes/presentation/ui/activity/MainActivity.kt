@@ -21,11 +21,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private var needAuth: Boolean = true
-
     private val authLauncher = registerForActivityResult(AuthResultContract()) { authResult ->
         authResult?.let {
-            needAuth = false
             when (it) {
                 AuthResultContract.AUTH_SUCCEEDED -> {
                     viewModel.onAuthSucceed()
@@ -41,6 +38,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        authLauncher.launch(AuthEvent.Login)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
         lifecycleScope.launch {
@@ -67,17 +65,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onPause() {
+        //authLauncher.launch(AuthEvent.Login)
+        super.onPause()
+    }
+
     override fun onResume() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        window.statusBarColor = getColor(R.color.white)
-        if (!needAuth) {
-            needAuth = true
-        } else {
-            if (!viewModel.doesPinExist(this)) {
-                authLauncher.launch(AuthEvent.CreatePin())
-            } else {
-                authLauncher.launch(AuthEvent.Login)
-            }
+        if (!viewModel.doesPinExist(this)) {
+            authLauncher.launch(AuthEvent.CreatePin())
         }
         super.onResume()
     }

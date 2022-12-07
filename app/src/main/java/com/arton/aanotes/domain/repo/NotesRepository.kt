@@ -28,7 +28,7 @@ class NotesRepository @Inject constructor(
 
     val isSharingEnabled = dataStoreManager.isSharingEnabled
 
-    suspend fun getNotes(query: String = "") = notesDao.getNotes(query).first()
+    suspend fun getNotes(query: String = "") = notesDao.getNotes().first()
 
     suspend fun insertTag(tag: Tag) {
         tagsDao.insertTag(tag)

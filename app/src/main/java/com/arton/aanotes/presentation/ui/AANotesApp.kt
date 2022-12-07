@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.arton.aanotes.presentation.ui.components.AANotesAppBar
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
 import com.arton.aanotes.presentation.ui.components.AANotesSnackbar
 import com.arton.aanotes.presentation.ui.components.BottomNavigationBar

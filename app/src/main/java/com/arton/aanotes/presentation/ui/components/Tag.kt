@@ -10,6 +10,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,8 +29,8 @@ fun Tag(
         modifier = Modifier
             .wrapContentWidth()
             .height(32.dp)
+            .clip(RoundedCornerShape(100.dp))
             .background(
-                shape = RoundedCornerShape(100.dp),
                 color = if (isSelected) TagActive else TagInactive
             )
             .clickable(
@@ -80,7 +81,7 @@ fun NewTag(
                 .padding(horizontal = 12.dp)
                 .wrapContentWidth(),
             fontSize = 12.sp,
-            placeholderText = "New tag +"
+            placeholderText = "Create new tag +"
         ) {
             onTagNameEntered(it)
         }

@@ -2,11 +2,11 @@ package com.arton.aanotes.presentation.ui.composable.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
@@ -72,10 +72,10 @@ fun AANotesNavGraph(
         navController = appState.navController,
         startDestination = startDestination,
         modifier = modifier,
-        enterTransition = { fadeIn(tween(300)) },
-        exitTransition = { fadeOut(tween(300)) },
-        popEnterTransition = { fadeIn(tween(300)) },
-        popExitTransition = { fadeOut(tween(300)) }
+        enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tweenSpec) },
+        exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tweenSpec) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tweenSpec)},
+        popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tweenSpec) }
     ) {
         composable(GlobalSections.OnboardingSection.destination) {
 
@@ -95,6 +95,7 @@ fun AANotesNavGraph(
     }
 }
 
+val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
 val tweenSpec =
     tween<IntOffset>(durationMillis = 400, easing = CubicBezierEasing(0.08f, 0.93f, 0.08f, 1.37f))
 

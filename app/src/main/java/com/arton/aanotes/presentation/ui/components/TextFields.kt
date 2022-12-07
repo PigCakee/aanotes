@@ -122,6 +122,7 @@ fun CustomTextField(
         },
         keyboardActions = KeyboardActions(onDone = {
             onValueChanged(text)
+            text = ""
         })
     )
 }

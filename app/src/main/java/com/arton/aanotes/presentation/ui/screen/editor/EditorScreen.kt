@@ -3,8 +3,13 @@ package com.arton.aanotes.presentation.ui.screen.editor
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,12 +55,13 @@ fun EditorScreen(
                 onTitleChanged = editorViewModel::onTitleChanged,
                 onBodyChanged = editorViewModel::onBodyChanged,
                 onNewTag = editorViewModel::onTagCreated,
-                onTagPressed = editorViewModel::onTagAdded
+                onTagPressed = editorViewModel::onTagClicked
             )
         }
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Editor(
     editorState: EditorState,
@@ -64,6 +70,10 @@ fun Editor(
     onTagPressed: (Tag) -> Unit = {},
     onNewTag: (Tag) -> Unit = {}
 ) {
+    val focus = LocalFocusManager.current
+    val focusRequester = FocusRequester()
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val titleHint = stringResource(id = R.string.title_hint)
     val bodyHint = stringResource(id = R.string.body_hint)
     var title by remember {
@@ -72,6 +82,17 @@ fun Editor(
     var body by remember {
         mutableStateOf(editorState.currentNote?.body ?: "")
     }
+
+    LaunchedEffect(editorState.currentNote?.title, editorState.currentNote?.body) {
+        title = editorState.currentNote?.title ?: ""
+        body = editorState.currentNote?.body ?: ""
+//        if (editorState.currentNote?.body != null) {
+//            delay(100L)
+//            focusRequester.requestFocus()
+//            keyboardController?.show()
+//        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -112,7 +133,8 @@ fun Editor(
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight(),
+                .wrapContentHeight()
+                .focusRequester(focusRequester),
             value = body,
             placeholder = {
                 Text(
@@ -186,6 +208,7 @@ fun Editor(
             }
             NewTag(onTagNameEntered = {
                 onNewTag(Tag(name = it))
+                focus.clearFocus()
             })
         }
     }
