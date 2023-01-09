@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        authLauncher.launch(AuthEvent.Login)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
         lifecycleScope.launch {
@@ -65,14 +64,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onPause() {
-        //authLauncher.launch(AuthEvent.Login)
-        super.onPause()
-    }
-
     override fun onResume() {
         if (!viewModel.doesPinExist(this)) {
             authLauncher.launch(AuthEvent.CreatePin())
+        } else if (viewModel.auth.value == false) {
+            authLauncher.launch(AuthEvent.Login)
         }
         super.onResume()
     }

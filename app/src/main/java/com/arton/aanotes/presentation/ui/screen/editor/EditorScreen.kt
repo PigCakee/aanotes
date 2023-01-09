@@ -3,13 +3,11 @@ package com.arton.aanotes.presentation.ui.screen.editor
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,7 +59,6 @@ fun EditorScreen(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Editor(
     editorState: EditorState,
@@ -72,7 +69,6 @@ fun Editor(
 ) {
     val focus = LocalFocusManager.current
     val focusRequester = FocusRequester()
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     val titleHint = stringResource(id = R.string.title_hint)
     val bodyHint = stringResource(id = R.string.body_hint)
@@ -86,11 +82,6 @@ fun Editor(
     LaunchedEffect(editorState.currentNote?.title, editorState.currentNote?.body) {
         title = editorState.currentNote?.title ?: ""
         body = editorState.currentNote?.body ?: ""
-//        if (editorState.currentNote?.body != null) {
-//            delay(100L)
-//            focusRequester.requestFocus()
-//            keyboardController?.show()
-//        }
     }
 
     Column(

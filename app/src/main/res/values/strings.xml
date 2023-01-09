@@ -66,6 +66,7 @@
     <string name="no_internet_error">You are not connected to the internet.</string>
     <string name="check_your_connection">Please check your connection.</string>
     <string name="auth_error">Your login attempt was not successful. Please try again.</string>
+    <string name="empty_results">No matches found for "%s"</string>
     <string name="password_length_error">Password must contain at least 8 characters.</string>
     <string name="unknown_error">Unknown_error</string>
     <string name="ok">OK</string>

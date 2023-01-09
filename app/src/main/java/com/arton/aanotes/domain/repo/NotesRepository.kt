@@ -18,7 +18,7 @@ class NotesRepository @Inject constructor(
     private val dataStoreManager: DataStoreManager
 ) {
 
-    val notes: Flow<List<Note>> = notesDao.getNotes().map { noteDtos ->
+    val notes = notesDao.getNotes().map { noteDtos ->
         noteDtos.map { it.mapToEntity() }
     }
 
@@ -28,7 +28,7 @@ class NotesRepository @Inject constructor(
 
     val isSharingEnabled = dataStoreManager.isSharingEnabled
 
-    suspend fun getNotes(query: String = "") = notesDao.getNotes().first()
+    fun getNotes(query: String = "") = notesDao.getNotes(query)
 
     suspend fun insertTag(tag: Tag) {
         tagsDao.insertTag(tag)
@@ -49,6 +49,5 @@ class NotesRepository @Inject constructor(
     suspend fun setCurrentNote(note: Note) {
         insertNote(note)
         dataStoreManager.setCurrentNoteId(note.id)
-
     }
 }

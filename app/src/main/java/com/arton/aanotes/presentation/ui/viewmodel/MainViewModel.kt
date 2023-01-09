@@ -1,6 +1,7 @@
 package com.arton.aanotes.presentation.ui.viewmodel
 
 import android.content.Context
+import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arton.aanotes.data.DataStoreManager
@@ -22,7 +23,7 @@ class MainViewModel @Inject constructor(
     private var mainStateFlow = MutableStateFlow(MainState())
     val mainState = mainStateFlow.asStateFlow()
 
-    private val authFlow: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    private val authFlow: MutableStateFlow<Boolean?> = MutableStateFlow(false)
     val auth = authFlow.asStateFlow()
 
     private val actionFlow: MutableStateFlow<Pair<Action?, AuthEvent>?> = MutableStateFlow(null)
@@ -43,6 +44,14 @@ class MainViewModel @Inject constructor(
 
     fun onAuthSucceed() {
         authFlow.update { true }
+        object : CountDownTimer(5000L, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+            override fun onFinish() {
+                authFlow.update { false }
+            }
+        }.start()
     }
 
     fun onAuthFailed() {

@@ -18,6 +18,7 @@ import com.arton.aanotes.presentation.ui.AuthDestinations.SPLASH_ROUTE
 import com.arton.aanotes.presentation.ui.EditorDestinations
 import com.arton.aanotes.presentation.ui.MainDestinations
 import com.arton.aanotes.presentation.ui.screen.editor.EditorScreen
+import com.arton.aanotes.presentation.ui.screen.search.SearchScreen
 import com.arton.aanotes.presentation.ui.screen.settings.SettingsScreen
 import com.arton.aanotes.presentation.ui.viewmodel.MainViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -72,10 +73,10 @@ fun AANotesNavGraph(
         navController = appState.navController,
         startDestination = startDestination,
         modifier = modifier,
-        enterTransition = { slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tweenSpec) },
-        exitTransition = { slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tweenSpec) },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tweenSpec)},
-        popExitTransition = { slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tweenSpec) }
+        enterTransition = { fadeIn() },
+        exitTransition = { fadeOut() },
+        popEnterTransition = { fadeIn() },
+        popExitTransition = { fadeOut() }
     ) {
         composable(GlobalSections.OnboardingSection.destination) {
 
@@ -84,7 +85,9 @@ fun AANotesNavGraph(
             EditorScreen(editorViewModel = hiltViewModel())
         }
         composable(MainSections.NotesSection.destination) {
-
+            SearchScreen(searchViewModel = hiltViewModel()) {
+                appState.navController.navigateUp()
+            }
         }
         composable(MainSections.SettingsSection.destination) {
             SettingsScreen(

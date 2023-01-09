@@ -53,7 +53,7 @@ class EditorViewModel @Inject constructor(
             notesRepository.setCurrentNote(newNote)
             newNote
         } else {
-            notesRepository.getNotes().firstOrNull { it.id == id }?.mapToEntity()
+            notesRepository.notes.first().firstOrNull { it.id == id }
         }
         editorStateFlow.update { editorState ->
             editorState.copy(

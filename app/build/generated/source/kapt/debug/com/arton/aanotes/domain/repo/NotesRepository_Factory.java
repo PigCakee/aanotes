@@ -1,5 +1,6 @@
 package com.arton.aanotes.domain.repo;
 
+import com.arton.aanotes.data.DataStoreManager;
 import com.arton.aanotes.domain.room.dao.NotesDao;
 import com.arton.aanotes.domain.room.dao.TagsDao;
 import dagger.internal.DaggerGenerated;
@@ -25,23 +26,27 @@ public final class NotesRepository_Factory implements Factory<NotesRepository> {
 
   private final Provider<TagsDao> tagsDaoProvider;
 
+  private final Provider<DataStoreManager> dataStoreManagerProvider;
+
   public NotesRepository_Factory(Provider<NotesDao> notesDaoProvider,
-      Provider<TagsDao> tagsDaoProvider) {
+      Provider<TagsDao> tagsDaoProvider, Provider<DataStoreManager> dataStoreManagerProvider) {
     this.notesDaoProvider = notesDaoProvider;
     this.tagsDaoProvider = tagsDaoProvider;
+    this.dataStoreManagerProvider = dataStoreManagerProvider;
   }
 
   @Override
   public NotesRepository get() {
-    return newInstance(notesDaoProvider.get(), tagsDaoProvider.get());
+    return newInstance(notesDaoProvider.get(), tagsDaoProvider.get(), dataStoreManagerProvider.get());
   }
 
   public static NotesRepository_Factory create(Provider<NotesDao> notesDaoProvider,
-      Provider<TagsDao> tagsDaoProvider) {
-    return new NotesRepository_Factory(notesDaoProvider, tagsDaoProvider);
+      Provider<TagsDao> tagsDaoProvider, Provider<DataStoreManager> dataStoreManagerProvider) {
+    return new NotesRepository_Factory(notesDaoProvider, tagsDaoProvider, dataStoreManagerProvider);
   }
 
-  public static NotesRepository newInstance(NotesDao notesDao, TagsDao tagsDao) {
-    return new NotesRepository(notesDao, tagsDao);
+  public static NotesRepository newInstance(NotesDao notesDao, TagsDao tagsDao,
+      DataStoreManager dataStoreManager) {
+    return new NotesRepository(notesDao, tagsDao, dataStoreManager);
   }
 }
