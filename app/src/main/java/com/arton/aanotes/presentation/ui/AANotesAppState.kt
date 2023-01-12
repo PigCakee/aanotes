@@ -3,6 +3,7 @@ package com.arton.aanotes.presentation.ui
 import android.content.res.Resources
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
@@ -75,7 +76,10 @@ class AANotesAppState(
 
                     // Display the snackbar on the screen. `showSnackbar` is a function
                     // that suspends until the snackbar disappears from the screen
-                    scaffoldState.snackbarHostState.showSnackbar(text)
+                    val result = scaffoldState.snackbarHostState.showSnackbar(text, actionLabel = "Restore")
+                    if (result == SnackbarResult.ActionPerformed) {
+                        snackbarManager.invokeAction()
+                    }
                     // Once the snackbar is gone or dismissed, notify the SnackbarManager
                     snackbarManager.setMessageShown(message.id)
                 }

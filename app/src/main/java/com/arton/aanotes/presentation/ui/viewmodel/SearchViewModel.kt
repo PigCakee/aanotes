@@ -32,7 +32,7 @@ class SearchViewModel @Inject constructor(
             searchState.copy(
                 searchResults = SearchResults(
                     orderedByLastEdit = results,
-                    orderedByDate = results.sortedBy { it.createdAt },
+                    orderedByDate = results.sortedByDescending { it.createdAt },
                     orderedAlphabetically = results.sortedBy { it.title }
                 ),
                 error = if (results.isEmpty()) R.string.empty_results else null,
@@ -53,6 +53,12 @@ class SearchViewModel @Inject constructor(
     fun deleteNote(note: Note) {
         viewModelScope.launch {
             notesRepository.deleteNote(note)
+        }
+    }
+
+    fun restoreNote(note: Note) {
+        viewModelScope.launch {
+            notesRepository.insertNote(note)
         }
     }
 
@@ -85,7 +91,7 @@ class SearchViewModel @Inject constructor(
                 searchState.copy(
                     searchResults = SearchResults(
                         orderedByLastEdit = results,
-                        orderedByDate = results.sortedBy { it.createdAt },
+                        orderedByDate = results.sortedByDescending { it.createdAt },
                         orderedAlphabetically = results.sortedBy { it.title }
                     ),
                     error = if (results.isEmpty()) R.string.empty_results else null,

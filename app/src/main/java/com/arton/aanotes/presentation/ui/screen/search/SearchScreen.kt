@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arton.aanotes.common.utils.SnackbarManager
 import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.domain.entity.Tag
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
@@ -68,11 +68,20 @@ fun SearchScreen(
             )
         }
     ) {
+        val deleteMessage = stringResource(id = com.arton.aanotes.R.string.note_deleted)
         SearchScreenUi(
             searchState = searchState,
             onTagClick = searchViewModel::onTagClick,
             onNoteClick = searchViewModel::openNote,
-            onNoteDelete = searchViewModel::deleteNote
+            onNoteDelete = {
+                searchViewModel.deleteNote(it)
+                SnackbarManager.showMessage(
+                    messageText = deleteMessage,
+                    action = {
+                        searchViewModel.restoreNote(it)
+                    }
+                )
+            }
         )
     }
 }
@@ -91,7 +100,7 @@ fun SearchScreenUi(
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .padding(horizontal = 12.dp, vertical = 16.dp)
                 .wrapContentHeight(),
             crossAxisSpacing = 10.dp,
             mainAxisSpacing = 12.dp

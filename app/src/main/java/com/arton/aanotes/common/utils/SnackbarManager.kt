@@ -16,7 +16,12 @@ object SnackbarManager {
     private val _messages: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
     val messages: StateFlow<List<Message>> get() = _messages.asStateFlow()
 
-    fun showMessage(messageText: String) {
+    private var action: () -> Unit = {}
+
+    fun invokeAction() = action()
+
+    fun showMessage(messageText: String, action: () -> Unit = {}) {
+        this.action = action
         _messages.update { currentMessages ->
             currentMessages + Message(
                 id = UUID.randomUUID().mostSignificantBits,

@@ -86,7 +86,7 @@ fun SearchAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(vertical = 8.dp, horizontal = 8.dp)
+                .padding(vertical = 8.dp, horizontal = 12.dp)
                 .focusRequester(focusRequester)
                 .onFocusChanged { focusState ->
                     if (focus.value != focusState.isFocused) {

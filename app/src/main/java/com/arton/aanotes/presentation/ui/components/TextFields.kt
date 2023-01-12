@@ -105,6 +105,7 @@ fun CustomTextField(
             text = it
         },
         singleLine = true,
+        maxLines = 1,
         cursorBrush = SolidColor(GreyDark),
         textStyle = LocalTextStyle.current.copy(
             color = GreyDark,
