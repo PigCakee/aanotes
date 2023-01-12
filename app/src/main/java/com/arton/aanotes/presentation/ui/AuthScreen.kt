@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arton.aanotes.R
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
@@ -62,6 +64,8 @@ fun AuthScreenUi(
         Text(
             text = stringResource(id = authState.authEvent.getTitleRes()),
             color = White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
             modifier = Modifier
                 .wrapContentSize()
                 .constrainAs(title) {
@@ -84,7 +88,7 @@ fun AuthScreenUi(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
-            painter = painterResource(id = if (canUseBiometrics) R.drawable.ic_fingerprint else R.drawable.ic_round_close_24),
+            painter = painterResource(id = if (canUseBiometrics) R.drawable.ic_fingerprint else R.drawable.ic_password),
             contentDescription = null
         )
         Text(

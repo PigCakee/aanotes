@@ -28,7 +28,15 @@ class EditorViewModel @Inject constructor(
 
         override fun onFinish() {
             viewModelScope.launch {
-                currentNote?.let { notesRepository.insertNote(it) }
+                currentNote?.let {
+                    if (it.body.trim().isBlank() && it.title.trim().isBlank()) {
+                        return@launch
+                    }
+                    if (it.title.trim().isBlank() && it.body.trim().isNotBlank()) {
+                        it.title = it.body.take(20)
+                    }
+                    notesRepository.insertNote(it)
+                }
                 editorStateFlow.update { editorState ->
                     editorState.copy(
                         isSaving = false,

@@ -7,6 +7,7 @@ val MainGrey = Color(0xFFEEEEEE)
 val GreyDark = Color(0xFF827D89)
 val TagInactive = Color(0xFFEFEEF0)
 val TagActive = BlueMain
+val RedError = Color(0xFFCE3A54)
 
 val Cerulean = Color(0xFF037EA2)
 

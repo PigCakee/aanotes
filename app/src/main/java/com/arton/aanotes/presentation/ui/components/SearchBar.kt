@@ -9,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -64,12 +66,17 @@ fun SearchAppBar(
             placeholder = {
                 Text(
                     text = "Search...",
+                    color = GreyDark
                 )
+            },
+            leadingIcon = {
+                Icon(imageVector = Icons.Filled.Search, "", tint = GreyDark)
             },
             trailingIcon = {
                 if (description.value.isNotEmpty()) {
                     PaperIconButton(id = R.drawable.ic_x) {
                         description.value = ""
+                        onQueryChanged("")
                     }
                 }
             },

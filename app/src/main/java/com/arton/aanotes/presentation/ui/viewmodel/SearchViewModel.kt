@@ -30,7 +30,11 @@ class SearchViewModel @Inject constructor(
         searchStateFlow.update { searchState ->
             val results = notes.filter { it.tags.containsAll(searchState.selectedTags) }
             searchState.copy(
-                searchResults = results,
+                searchResults = SearchResults(
+                    orderedByLastEdit = results,
+                    orderedByDate = results.sortedBy { it.createdAt },
+                    orderedAlphabetically = results.sortedBy { it.title }
+                ),
                 error = if (results.isEmpty()) R.string.empty_results else null,
                 tags = tags
             )
@@ -40,6 +44,9 @@ class SearchViewModel @Inject constructor(
     fun openNote(note: Note) {
         viewModelScope.launch {
             notesRepository.setCurrentNote(note)
+            searchStateFlow.update { searchState ->
+                searchState.copy(noteToOpen = note)
+            }
         }
     }
 
@@ -69,14 +76,18 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getNotes(query: String = this.query) {
-        this.query = query
+        this.query = query.trim()
         job?.cancel()
         job = viewModelScope.launch {
             searchStateFlow.update { searchState ->
                 val notes = notesRepository.getNotes(query).first()
                 val results = notes.filter { it.tags.containsAll(searchState.selectedTags) }.map { it.mapToEntity() }
                 searchState.copy(
-                    searchResults = results,
+                    searchResults = SearchResults(
+                        orderedByLastEdit = results,
+                        orderedByDate = results.sortedBy { it.createdAt },
+                        orderedAlphabetically = results.sortedBy { it.title }
+                    ),
                     error = if (results.isEmpty()) R.string.empty_results else null,
                 )
             }
@@ -101,8 +112,14 @@ class SearchViewModel @Inject constructor(
         val query: String = "",
         val tags: List<Tag> = listOf(),
         val selectedTags: List<Tag> = listOf(),
-        val searchResults: List<Note> = listOf(),
+        val searchResults: SearchResults = SearchResults(),
         val noteToOpen: Note? = null,
         @StringRes val error: Int? = null
+    )
+
+    data class SearchResults(
+        val orderedByLastEdit: List<Note> = listOf(),
+        val orderedByDate: List<Note> = listOf(),
+        val orderedAlphabetically: List<Note> = listOf()
     )
 }
