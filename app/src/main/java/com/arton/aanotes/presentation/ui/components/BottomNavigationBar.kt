@@ -1,6 +1,7 @@
 package com.arton.aanotes.presentation.ui.components
 
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -12,11 +13,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.arton.aanotes.presentation.ui.AANotesAppState
 import com.arton.aanotes.presentation.ui.composable.navigation.MainSections
-import com.arton.aanotes.presentation.ui.theme.*
+import com.arton.aanotes.presentation.ui.theme.BlueMain
+import com.arton.aanotes.presentation.ui.theme.GreyDark
+import com.arton.aanotes.presentation.ui.theme.Transparent95
+import com.arton.aanotes.presentation.ui.theme.UiBackground
 
 @Composable
 fun BottomNavigationBar(
@@ -26,6 +31,7 @@ fun BottomNavigationBar(
 
     BottomNavigation(
         modifier = Modifier.navigationBarsPadding(),
+        elevation = 8.dp,
         backgroundColor = UiBackground.copy(alpha = Transparent95)
     ) {
 
@@ -49,6 +55,7 @@ fun BottomNavigationBar(
                 },
                 icon = {
                     Icon(
+                        modifier = Modifier.size(24.dp),
                         painter = painterResource(id = item.iconId),
                         contentDescription = stringResource(id = item.title)
                     )

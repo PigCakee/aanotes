@@ -1,6 +1,10 @@
 package com.arton.aanotes.presentation.ui.screen.editor
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -22,10 +26,7 @@ import com.arton.aanotes.presentation.ui.components.AANotesScaffold
 import com.arton.aanotes.presentation.ui.components.EditorAppBar
 import com.arton.aanotes.presentation.ui.components.NewTag
 import com.arton.aanotes.presentation.ui.components.Tag
-import com.arton.aanotes.presentation.ui.theme.AANotesTheme
-import com.arton.aanotes.presentation.ui.theme.Black
-import com.arton.aanotes.presentation.ui.theme.GreyDark
-import com.arton.aanotes.presentation.ui.theme.White
+import com.arton.aanotes.presentation.ui.theme.*
 import com.arton.aanotes.presentation.ui.viewmodel.EditorState
 import com.arton.aanotes.presentation.ui.viewmodel.EditorViewModel
 import com.google.accompanist.flowlayout.FlowRow
@@ -46,7 +47,12 @@ fun EditorScreen(
 
             })
     }) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 50.dp)
+        ) {
             Spacer(modifier = Modifier.height(10.dp))
             Editor(
                 editorState = editorState,
@@ -67,6 +73,10 @@ fun Editor(
     onTagPressed: (Tag) -> Unit = {},
     onNewTag: (Tag) -> Unit = {}
 ) {
+    val customTextSelectionColors = TextSelectionColors(
+        handleColor = BlueMain,
+        backgroundColor = BlueMain.copy(alpha = Transparent50)
+    )
     val focus = LocalFocusManager.current
     val focusRequester = FocusRequester()
 
@@ -89,70 +99,76 @@ fun Editor(
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            value = title,
-            placeholder = {
-                Text(
-                    text = titleHint,
+        CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                value = title,
+                placeholder = {
+                    Text(
+                        text = titleHint,
+                        color = if (title.isBlank()) GreyDark else Black,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                },
+                onValueChange = {
+                    title = it
+                    onTitleChanged(it)
+                },
+                textStyle = TextStyle(
                     color = if (title.isBlank()) GreyDark else Black,
                     fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Black,
+                    backgroundColor = White,
+                    cursorColor = Black,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
                 )
-            },
-            onValueChange = {
-                title = it
-                onTitleChanged(it)
-            },
-            textStyle = TextStyle(
-                color = if (title.isBlank()) GreyDark else Black,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold
-            ),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = Black,
-                backgroundColor = White,
-                cursorColor = Black,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
             )
-        )
+        }
 
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .focusRequester(focusRequester),
-            value = body,
-            placeholder = {
-                Text(
-                    text = bodyHint,
+
+        CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .focusRequester(focusRequester),
+                value = body,
+                placeholder = {
+                    Text(
+                        text = bodyHint,
+                        color = if (body.isBlank()) GreyDark else Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                    )
+                },
+                onValueChange = {
+                    body = it
+                    onBodyChanged(it)
+                },
+                textStyle = TextStyle(
                     color = if (body.isBlank()) GreyDark else Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Black,
+                    backgroundColor = White,
+                    cursorColor = Black,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
                 )
-            },
-            onValueChange = {
-                body = it
-                onBodyChanged(it)
-            },
-            textStyle = TextStyle(
-                color = if (body.isBlank()) GreyDark else Black,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-            ),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = Black,
-                backgroundColor = White,
-                cursorColor = Black,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
             )
-        )
+        }
+
 
         Divider(
             modifier = Modifier

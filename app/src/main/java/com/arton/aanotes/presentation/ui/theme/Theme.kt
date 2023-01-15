@@ -2,6 +2,7 @@ package com.arton.aanotes.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import android.view.WindowInsetsController
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -10,10 +11,13 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import com.arton.aanotes.presentation.ui.activity.AuthActivity
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
     primary = BlueMain,
@@ -53,10 +57,17 @@ fun AANotesTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
+    val systemUiController = rememberSystemUiController()
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            val activity = (view.context as Activity)
+            if (activity is AuthActivity) {
+                systemUiController.setStatusBarColor(BlueMain, darkIcons = false)
+            } else {
+                systemUiController.setStatusBarColor(White, darkIcons = true)
+            }
+            //(view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            //ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
 

@@ -29,13 +29,7 @@ class EditorViewModel @Inject constructor(
         override fun onFinish() {
             viewModelScope.launch {
                 currentNote?.let {
-                    if (it.body.trim().isBlank() && it.title.trim().isBlank()) {
-                        return@launch
-                    }
-                    if (it.title.trim().isBlank() && it.body.trim().isNotBlank()) {
-                        it.title = it.body.take(20)
-                    }
-                    notesRepository.insertNote(it)
+                    saveNote(it)
                 }
                 editorStateFlow.update { editorState ->
                     editorState.copy(
@@ -44,6 +38,23 @@ class EditorViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    private suspend fun saveNote(it: Note) {
+        val title = it.title
+        val body = it.body
+        if (title.isBlank() && body.isBlank()) {
+            return
+        } else if (title.isBlank()) {
+            val words = body.split(" ")
+            val newTitle = words.take(3).joinToString(" ")
+            it.title = newTitle
+            notesRepository.insertNote(it)
+        } else if (body.isBlank()) {
+            notesRepository.insertNote(it)
+        } else {
+            notesRepository.insertNote(it)
         }
     }
 
@@ -95,14 +106,15 @@ class EditorViewModel @Inject constructor(
 
     fun onTagClicked(tag: Tag) = viewModelScope.launch {
         val updatedTags = currentNote?.tags?.toMutableList()
-        updatedTags?.let {
-            if (it.contains(tag)) {
+        updatedTags?.let { tags ->
+            if (tags.contains(tag)) {
                 updatedTags.remove(tag)
             } else {
                 updatedTags.add(tag)
             }
-            currentNote = currentNote?.copy(tags = it, editedAt = Date(System.currentTimeMillis()))
-            currentNote?.let { notesRepository.insertNote(it) }
+            currentNote =
+                currentNote?.copy(tags = tags, editedAt = Date(System.currentTimeMillis()))
+            currentNote?.let { saveNote(it) }
             editorStateFlow.update { editorState ->
                 editorState.copy(
                     isSaving = false,

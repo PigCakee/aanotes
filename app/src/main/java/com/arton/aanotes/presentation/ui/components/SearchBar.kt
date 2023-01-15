@@ -7,15 +7,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -56,60 +55,67 @@ fun SearchAppBar(
             .wrapContentHeight()
             .fillMaxWidth()
     ) {
-        TextField(
-            value = description.value,
-            singleLine = true,
-            onValueChange = {
-                description.value = it
-                onQueryChanged(it)
-            },
-            placeholder = {
-                Text(
-                    text = "Search...",
-                    color = GreyDark
-                )
-            },
-            leadingIcon = {
-                Icon(imageVector = Icons.Filled.Search, "", tint = GreyDark)
-            },
-            trailingIcon = {
-                if (description.value.isNotEmpty()) {
-                    PaperIconButton(id = R.drawable.ic_x) {
-                        description.value = ""
-                        onQueryChanged("")
-                    }
-                }
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions { inputService?.hideSoftwareKeyboard() },
-            textStyle = TextStyle(fontWeight = FontWeight.W400, fontSize = 14.sp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(vertical = 8.dp, horizontal = 12.dp)
-                .focusRequester(focusRequester)
-                .onFocusChanged { focusState ->
-                    if (focus.value != focusState.isFocused) {
-                        focus.value = focusState.isFocused
-                        if (!focusState.isFocused && focus.value) {
-                            inputService?.hideSoftwareKeyboard()
+        val customTextSelectionColors = TextSelectionColors(
+            handleColor = BlueMain,
+            backgroundColor = BlueMain.copy(alpha = Transparent50)
+        )
+
+        CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+            TextField(
+                value = description.value,
+                singleLine = true,
+                onValueChange = {
+                    description.value = it
+                    onQueryChanged(it)
+                },
+                placeholder = {
+                    Text(
+                        text = "Search...",
+                        color = GreyDark
+                    )
+                },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Filled.Search, "", tint = GreyDark)
+                },
+                trailingIcon = {
+                    if (description.value.isNotEmpty()) {
+                        PaperIconButton(id = R.drawable.ic_x) {
+                            description.value = ""
+                            onQueryChanged("")
                         }
                     }
                 },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = SearchGrey,
-                textColor = Black,
-                cursorColor = BlueMain,
-                focusedTrailingIconColor = BlueMain,
-                errorTrailingIconColor = BlueMain,
-                unfocusedTrailingIconColor = BlueMain,
-                disabledTrailingIconColor = BlueMain,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(8.dp)
-        )
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions { inputService?.hideSoftwareKeyboard() },
+                textStyle = TextStyle(fontWeight = FontWeight.W400, fontSize = 14.sp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(vertical = 8.dp, horizontal = 12.dp)
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        if (focus.value != focusState.isFocused) {
+                            focus.value = focusState.isFocused
+                            if (!focusState.isFocused && focus.value) {
+                                inputService?.hideSoftwareKeyboard()
+                            }
+                        }
+                    },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = SearchGrey,
+                    textColor = Black,
+                    cursorColor = BlueMain,
+                    focusedTrailingIconColor = BlueMain,
+                    errorTrailingIconColor = BlueMain,
+                    unfocusedTrailingIconColor = BlueMain,
+                    disabledTrailingIconColor = BlueMain,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(8.dp)
+            )
+        }
     }
 }
 

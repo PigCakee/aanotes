@@ -1,5 +1,8 @@
 package com.arton.aanotes.presentation.ui.components
 
+import android.content.Context
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -17,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +47,8 @@ fun NoteSearchItem(
     } else {
         Modifier
     }
+    val vibratorManager = LocalContext.current.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
     Box(modifier = Modifier.wrapContentSize()) {
         Surface(
             shape = RoundedCornerShape(8.dp),
@@ -61,6 +67,7 @@ fun NoteSearchItem(
                             onNoteClick(note)
                         },
                         onLongClick = {
+                            vibratorManager.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
                             longPress = true
                         }
                     )

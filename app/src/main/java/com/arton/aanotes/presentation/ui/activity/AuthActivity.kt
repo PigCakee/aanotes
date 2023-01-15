@@ -67,9 +67,6 @@ class AuthActivity : FragmentActivity() {
         viewModel.setAuthEvent(authEvent)
         setContent {
             AANotesTheme {
-                val systemUiController = rememberSystemUiController()
-                systemUiController.setNavigationBarColor(White)
-                systemUiController.setStatusBarColor(BlueMain)
                 AuthScreen(
                     viewModel = viewModel,
                     canUseBiometrics = canUseBiometrics && (authEvent is AuthEvent.AuthenticateAction || authEvent is AuthEvent.Login),
