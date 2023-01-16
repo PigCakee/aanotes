@@ -12,6 +12,7 @@ import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,9 +21,6 @@ class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private var mainStateFlow = MutableStateFlow(MainState())
-    val mainState = mainStateFlow.asStateFlow()
-
     private val authFlow: MutableStateFlow<Boolean?> = MutableStateFlow(false)
     val auth = authFlow.asStateFlow()
 
@@ -30,7 +28,6 @@ class MainViewModel @Inject constructor(
     val action = actionFlow.asStateFlow()
 
     val actionResult = combine(actionFlow, authFlow) { action, authResult ->
-        onAuthEventConsumed()
         ActionResult(action?.first, authResult)
     }.stateIn(
         scope = viewModelScope,
@@ -42,37 +39,38 @@ class MainViewModel @Inject constructor(
         actionFlow.update { action to authEvent }
     }
 
+    fun enableSharing(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStoreManager.setSharingEnabled(enabled)
+        }
+    }
+
+    fun enableScreenCapture(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStoreManager.setScreenCaptureEnabled(enabled)
+        }
+    }
+
     fun onAuthSucceed() {
         authFlow.update { true }
-        object : CountDownTimer(5000L, 1000L) {
-            override fun onTick(millisUntilFinished: Long) {
-            }
+        viewModelScope.launch {
+            val seconds = dataStoreManager.authCooldownSeconds.first()
+            object : CountDownTimer(TimeUnit.SECONDS.toMillis(seconds.toLong()), 1000L) {
+                override fun onTick(millisUntilFinished: Long) {
+                }
 
-            override fun onFinish() {
-                authFlow.update { false }
-            }
-        }.start()
+                override fun onFinish() {
+                    authFlow.update { false }
+                }
+            }.start()
+        }
     }
 
     fun onAuthFailed() {
         authFlow.update { false }
     }
 
-    private fun onAuthEventConsumed() {
-        authFlow.update { null }
-        actionFlow.update { null }
-    }
-
     fun doesPinExist(context: Context) = authRepository.doesPinExist(context)
-
-    fun checkIfOnBoardingPassed() {
-        viewModelScope.launch {
-            mainStateFlow.update { mainState ->
-                mainState.copy(isOnBoardingPassed = dataStoreManager.isOnBoardingPassed.first())
-            }
-        }
-
-    }
 }
 
 data class MainState(

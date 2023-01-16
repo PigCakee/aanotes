@@ -5,11 +5,10 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.arton.aanotes.R
+import com.arton.aanotes.domain.entity.Action
 import com.arton.aanotes.presentation.ui.AANotesApp
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import com.arton.aanotes.presentation.ui.activity.contract.AuthResultContract
@@ -38,12 +37,38 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.mainState.collect { mainState ->
-                    // Я хуй знает так вообще делать или нет гляну потом
+                viewModel.actionResult.collect { actionResult ->
+                    if (actionResult.authenticated == true) {
+                        when (actionResult.action) {
+                            is Action.TurnOnScreenCapture -> {
+                                viewModel.enableScreenCapture(true)
+                                window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                            }
+                            is Action.TurnOffScreenCapture -> {
+                                viewModel.enableScreenCapture(false)
+                                window.setFlags(
+                                    WindowManager.LayoutParams.FLAG_SECURE,
+                                    WindowManager.LayoutParams.FLAG_SECURE
+                                )
+                            }
+                            is Action.TurnOffSharing -> {
+                                viewModel.enableSharing(false)
+                            }
+                            is Action.TurnOnSharing -> {
+                                viewModel.enableSharing(true)
+                            }
+                            else -> {
+
+                            }
+                        }
+                    }
                 }
             }
         }

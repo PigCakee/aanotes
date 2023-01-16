@@ -17,6 +17,11 @@
 
     <string name="new_note">New note</string>
     <string name="edit_note">Edit note</string>
+    <string name="change_pin">Change pin-code</string>
+    <string name="auth_cooldown">Authorization cooldown</string>
+    <string name="block_screen">Block screen capture</string>
+    <string name="block_sharing">Block sharing</string>
+    <string name="delete_all">Delete all data</string>
     <string name="saving">Saving…</string>
     <string name="saved">Saved</string>
 
@@ -130,7 +135,8 @@
     <string name="n_session">%1$d session</string>
     <string name="no_sessions">No sessions</string>
     <string name="min">min</string>
-    <string name="mins">mins</string>
+    <string name="sec">%s seconds</string>
+    <string name="mins">%s mins</string>
     <string name="course">Course</string>
     <string name="session">Session</string>
     <string name="favorite_session_image">Favorite session image</string>

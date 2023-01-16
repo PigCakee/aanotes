@@ -26,7 +26,7 @@ sealed class AuthEvent : Parcelable {
 
     fun getDescriptionRes(canUseBiometrics: Boolean) = when(this) {
         is AuthenticateAction -> if (canUseBiometrics) R.string.scan_or_enter_pin else R.string.enter_pin
-        is UpdatePin -> if (oldPin.isBlank()) R.string.update_pin_old_pin else R.string.update_pin_2_step
+        is UpdatePin -> if (oldPin.isBlank()) R.string.update_pin_old_pin else R.string.update_pin_new_pin
         is Login -> if (canUseBiometrics) R.string.scan_or_enter_pin else R.string.enter_pin
         is CreatePin -> if (pin1.isBlank()) R.string.update_pin_new_pin else R.string.update_pin_2_step
     }
