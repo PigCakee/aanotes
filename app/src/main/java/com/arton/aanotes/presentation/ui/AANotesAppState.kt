@@ -26,15 +26,6 @@ object MainDestinations {
     const val SETTINGS_ROUTE = "settings"
 }
 
-object AuthDestinations {
-    const val SPLASH_ROUTE = "splash"
-    const val ONBOARDING_ROUTE = "onboarding"
-}
-
-object EditorDestinations {
-    const val CUSTOMIZE_ROUTE = "customize"
-}
-
 /**
  * Remembers and creates an instance of [AANotesAppState]
  */

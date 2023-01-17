@@ -12,7 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arton.aanotes.common.CORNERS_RADIUS_10
 import com.arton.aanotes.presentation.ui.theme.PrimaryTextColor
 import com.google.relay.compose.BoxScopeInstanceImpl.align
 

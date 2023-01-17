@@ -1,7 +1,6 @@
 package com.arton.aanotes.domain.room
 
 import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 
 class MigrationHelper {
 

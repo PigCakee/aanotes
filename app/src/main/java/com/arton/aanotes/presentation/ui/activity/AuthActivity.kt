@@ -14,10 +14,7 @@ import com.arton.aanotes.presentation.ui.AuthScreen
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import com.arton.aanotes.presentation.ui.activity.contract.AuthResultContract
 import com.arton.aanotes.presentation.ui.theme.AANotesTheme
-import com.arton.aanotes.presentation.ui.theme.BlueMain
-import com.arton.aanotes.presentation.ui.theme.White
 import com.arton.aanotes.presentation.ui.viewmodel.AuthViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

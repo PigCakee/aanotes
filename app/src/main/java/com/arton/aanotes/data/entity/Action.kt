@@ -1,4 +1,4 @@
-package com.arton.aanotes.domain.entity
+package com.arton.aanotes.data.entity
 
 sealed class Action {
     object TurnOnScreenCapture: Action()
@@ -6,7 +6,6 @@ sealed class Action {
     object TurnOnSharing: Action()
     object TurnOffSharing: Action()
     object ChangePin: Action()
-    object DeleteAllData: Action()
 }
 
 data class ActionResult(

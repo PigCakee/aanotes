@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arton.aanotes.common.utils.formatDateShort
-import com.arton.aanotes.domain.entity.Note
+import com.arton.aanotes.data.entity.Note
 import com.arton.aanotes.presentation.ui.theme.*
 import java.util.*
 

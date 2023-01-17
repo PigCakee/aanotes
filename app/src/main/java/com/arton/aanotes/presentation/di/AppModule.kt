@@ -3,7 +3,6 @@ package com.arton.aanotes.presentation.di
 import android.content.Context
 import com.arton.aanotes.common.utils.CryptoManager
 import com.arton.aanotes.data.DataStoreManager
-import com.arton.aanotes.domain.repo.NotesRepository
 import com.arton.aanotes.domain.room.DatabasePasswordManager
 import com.arton.aanotes.domain.room.NotesDatabase
 import com.arton.aanotes.domain.room.dao.NotesDao
@@ -29,10 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabasePasswordManager(context: Context) =
-        DatabasePasswordManager(
-            CryptoManager()
-        )
+    fun provideDatabasePasswordManager() = DatabasePasswordManager(CryptoManager())
 
     @Provides
     fun provideDatabase(

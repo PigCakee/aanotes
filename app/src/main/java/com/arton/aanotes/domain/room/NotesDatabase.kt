@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.arton.aanotes.domain.entity.NoteDto
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.NoteDto
+import com.arton.aanotes.data.entity.Tag
 import com.arton.aanotes.domain.room.converter.NotesConverter
 import com.arton.aanotes.domain.room.dao.NotesDao
 import com.arton.aanotes.domain.room.dao.TagsDao

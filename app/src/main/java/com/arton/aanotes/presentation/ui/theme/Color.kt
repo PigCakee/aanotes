@@ -9,7 +9,6 @@ val TagInactive = Color(0xFFEFEEF0)
 val TagActive = BlueMain
 val RedError = Color(0xFFCE3A54)
 
-val Cerulean = Color(0xFF037EA2)
 
 val Black = Color(0xFF000000)
 val DarkGray = Color(0x1fffffff)
@@ -18,10 +17,8 @@ val Gray = Color(0xFF6E7078)
 val LightGray = Color(0xFFEFEEF0)
 val White = Color(0xffffffff)
 val PrimaryTextColor = Color(0xff3C3E42)
-val SecondaryTextColor = Color(0xff6E7078)
 val UiBackground = White
 
-val IrisBlue = Color(0xFF00BADE)
 const val Transparent95 = 0.95f
 const val Transparent90 = 0.9f
 const val Transparent70 = 0.7f

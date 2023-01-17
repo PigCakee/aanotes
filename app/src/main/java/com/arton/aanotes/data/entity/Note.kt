@@ -1,4 +1,4 @@
-package com.arton.aanotes.domain.entity
+package com.arton.aanotes.data.entity
 
 import java.util.*
 

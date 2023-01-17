@@ -28,8 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arton.aanotes.common.utils.SnackbarManager
-import com.arton.aanotes.domain.entity.Note
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Note
+import com.arton.aanotes.data.entity.Tag
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
 import com.arton.aanotes.presentation.ui.components.NoteSearchItem
 import com.arton.aanotes.presentation.ui.components.SearchAppBar

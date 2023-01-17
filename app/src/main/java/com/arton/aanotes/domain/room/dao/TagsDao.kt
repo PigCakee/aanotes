@@ -1,8 +1,7 @@
 package com.arton.aanotes.domain.room.dao
 
 import androidx.room.*
-import com.arton.aanotes.domain.entity.NoteDto
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Tag
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.arton.aanotes.presentation.ui.theme.IrisBlue
+import com.arton.aanotes.presentation.ui.theme.BlueMain
 
 
 /**
@@ -23,7 +23,7 @@ fun AANotesSnackbar(
     shape: Shape = MaterialTheme.shapes.small,
     backgroundColor: Color = Color.DarkGray,
     contentColor: Color = Color.White,
-    actionColor: Color = IrisBlue,
+    actionColor: Color = BlueMain,
     elevation: Dp = 6.dp
 ) {
     Snackbar(

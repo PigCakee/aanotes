@@ -1,7 +1,7 @@
 package com.arton.aanotes.domain.room.converter
 
 import androidx.room.TypeConverter
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Tag
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*

@@ -1,10 +1,8 @@
 package com.arton.aanotes.presentation.ui.components
 
 import android.content.Context
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.os.VibratorManager
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getSystemService
 import com.arton.aanotes.R
 import com.arton.aanotes.presentation.ui.theme.AANotesTheme
 import com.arton.aanotes.presentation.ui.theme.MainGrey

@@ -4,8 +4,8 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arton.aanotes.R
-import com.arton.aanotes.domain.entity.Note
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Note
+import com.arton.aanotes.data.entity.Tag
 import com.arton.aanotes.domain.repo.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

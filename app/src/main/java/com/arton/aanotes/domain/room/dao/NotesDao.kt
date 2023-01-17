@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.arton.aanotes.domain.entity.NoteDto
+import com.arton.aanotes.data.entity.NoteDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao

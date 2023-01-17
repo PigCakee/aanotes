@@ -3,19 +3,11 @@ package com.arton.aanotes.presentation.ui.composable.navigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.*
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arton.aanotes.R
 import com.arton.aanotes.presentation.ui.AANotesAppState
-import com.arton.aanotes.presentation.ui.AuthDestinations.ONBOARDING_ROUTE
-import com.arton.aanotes.presentation.ui.AuthDestinations.SPLASH_ROUTE
-import com.arton.aanotes.presentation.ui.EditorDestinations
 import com.arton.aanotes.presentation.ui.MainDestinations
 import com.arton.aanotes.presentation.ui.screen.editor.EditorScreen
 import com.arton.aanotes.presentation.ui.screen.search.SearchScreen
@@ -23,11 +15,6 @@ import com.arton.aanotes.presentation.ui.screen.settings.SettingsScreen
 import com.arton.aanotes.presentation.ui.viewmodel.MainViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-
-sealed class GlobalSections(val destination: String) {
-    object SplashSection : GlobalSections(SPLASH_ROUTE)
-    object OnboardingSection : GlobalSections(ONBOARDING_ROUTE)
-}
 
 sealed class MainSections(
     @StringRes val title: Int,
@@ -53,14 +40,6 @@ sealed class MainSections(
     )
 }
 
-sealed class NotesSubsections(val destination: String) {
-    object CustomizeSection : NotesSubsections(EditorDestinations.CUSTOMIZE_ROUTE)
-}
-
-sealed class SettingsSubsections(val destination: String) {
-    object CustomizeSection : SettingsSubsections(EditorDestinations.CUSTOMIZE_ROUTE)
-}
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AANotesNavGraph(
@@ -78,9 +57,6 @@ fun AANotesNavGraph(
         popEnterTransition = { fadeIn() },
         popExitTransition = { fadeOut() }
     ) {
-        composable(GlobalSections.OnboardingSection.destination) {
-
-        }
         composable(MainSections.EditorSection.destination) {
             EditorScreen(
                 editorViewModel = hiltViewModel(),
@@ -100,9 +76,4 @@ fun AANotesNavGraph(
         }
     }
 }
-
-val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
-val tweenSpec =
-    tween<IntOffset>(durationMillis = 400, easing = CubicBezierEasing(0.08f, 0.93f, 0.08f, 1.37f))
-
 

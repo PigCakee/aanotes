@@ -15,7 +15,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Tag
 import com.arton.aanotes.presentation.ui.theme.*
 
 @Composable

@@ -1,12 +1,11 @@
 package com.arton.aanotes.domain.repo
 
 import com.arton.aanotes.data.DataStoreManager
-import com.arton.aanotes.domain.entity.Note
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Note
+import com.arton.aanotes.data.entity.Tag
 import com.arton.aanotes.domain.room.dao.NotesDao
 import com.arton.aanotes.domain.room.dao.TagsDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton

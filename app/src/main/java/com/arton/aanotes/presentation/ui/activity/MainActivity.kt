@@ -9,8 +9,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.arton.aanotes.domain.entity.Action
-import com.arton.aanotes.domain.entity.Note
+import com.arton.aanotes.data.entity.Action
+import com.arton.aanotes.data.entity.Note
 import com.arton.aanotes.presentation.ui.AANotesApp
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import com.arton.aanotes.presentation.ui.activity.contract.AuthResultContract

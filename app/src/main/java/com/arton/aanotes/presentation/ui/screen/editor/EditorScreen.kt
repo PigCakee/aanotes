@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arton.aanotes.R
 import com.arton.aanotes.common.utils.formatDateShort
-import com.arton.aanotes.domain.entity.Note
-import com.arton.aanotes.domain.entity.Tag
+import com.arton.aanotes.data.entity.Note
+import com.arton.aanotes.data.entity.Tag
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
 import com.arton.aanotes.presentation.ui.components.EditorAppBar
 import com.arton.aanotes.presentation.ui.components.NewTag

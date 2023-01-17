@@ -5,9 +5,9 @@ import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arton.aanotes.data.DataStoreManager
-import com.arton.aanotes.domain.entity.Action
-import com.arton.aanotes.domain.entity.ActionResult
-import com.arton.aanotes.domain.entity.Note
+import com.arton.aanotes.data.entity.Action
+import com.arton.aanotes.data.entity.ActionResult
+import com.arton.aanotes.data.entity.Note
 import com.arton.aanotes.domain.repo.AuthRepository
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -86,7 +86,3 @@ class MainViewModel @Inject constructor(
 
     fun doesPinExist(context: Context) = authRepository.doesPinExist(context)
 }
-
-data class MainState(
-    val isOnBoardingPassed: Boolean = false
-)
