@@ -69,7 +69,7 @@ public final class TagsDao_Impl implements TagsDao {
   }
 
   @Override
-  public Object insertTag(final Tag tag, final Continuation<? super Unit> continuation) {
+  public Object insertTag(final Tag tag, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -82,11 +82,11 @@ public final class TagsDao_Impl implements TagsDao {
           __db.endTransaction();
         }
       }
-    }, continuation);
+    }, arg1);
   }
 
   @Override
-  public Object deleteTag(final Tag tag, final Continuation<? super Unit> continuation) {
+  public Object deleteTag(final Tag tag, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -99,7 +99,7 @@ public final class TagsDao_Impl implements TagsDao {
           __db.endTransaction();
         }
       }
-    }, continuation);
+    }, arg1);
   }
 
   @Override

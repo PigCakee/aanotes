@@ -3,6 +3,7 @@ package com.arton.aanotes.presentation.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arton.aanotes.data.DataStoreManager
+import com.arton.aanotes.domain.repo.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -10,7 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val dataStoreManager: DataStoreManager
+    private val dataStoreManager: DataStoreManager,
+    private val notesRepository: NotesRepository
 ) : ViewModel() {
 
     val settingsState = combine(
@@ -43,6 +45,13 @@ class SettingsViewModel @Inject constructor(
     fun onNewCooldown() {
         viewModelScope.launch {
             dataStoreManager.setAuthCooldownSeconds(incrementTime())
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            notesRepository.deleteAll()
+            dataStoreManager.clearAll()
         }
     }
 

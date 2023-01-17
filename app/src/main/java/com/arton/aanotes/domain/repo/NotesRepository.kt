@@ -42,6 +42,11 @@ class NotesRepository @Inject constructor(
         notesDao.deleteNote(note.mapToDto())
     }
 
+    suspend fun deleteAll() {
+        notesDao.deleteAll()
+        tagsDao.deleteAll()
+    }
+
     suspend fun insertNote(note: Note) {
         notesDao.insertNote(note.mapToDto())
     }

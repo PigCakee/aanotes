@@ -82,7 +82,10 @@ fun AANotesNavGraph(
 
         }
         composable(MainSections.EditorSection.destination) {
-            EditorScreen(editorViewModel = hiltViewModel())
+            EditorScreen(
+                editorViewModel = hiltViewModel(),
+                mainViewModel = mainViewModel
+            )
         }
         composable(MainSections.NotesSection.destination) {
             SearchScreen(searchViewModel = hiltViewModel()) {

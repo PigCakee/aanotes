@@ -1,5 +1,6 @@
 package com.arton.aanotes.presentation.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -9,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.arton.aanotes.domain.entity.Action
+import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.presentation.ui.AANotesApp
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import com.arton.aanotes.presentation.ui.activity.contract.AuthResultContract
@@ -37,10 +39,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -82,11 +80,46 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.share.collect {
+                    it?.let {
+                        shareNote(it)
+                        viewModel.onShareEventConsumed()
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.screenCaptureEnabled.collect {
+                    if (it) {
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                    } else {
+                        window.setFlags(
+                            WindowManager.LayoutParams.FLAG_SECURE,
+                            WindowManager.LayoutParams.FLAG_SECURE
+                        )
+                    }
+                }
+            }
+        }
+
         setContent {
             AANotesTheme {
                 AANotesApp(mainViewModel = viewModel)
             }
         }
+    }
+
+    private fun shareNote(note: Note) {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "${note.title}\n\n${note.body}")
+        shareIntent.type = "text/plain"
+
+        startActivity(Intent.createChooser(shareIntent, null))
     }
 
     override fun onResume() {

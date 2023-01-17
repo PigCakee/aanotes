@@ -22,6 +22,7 @@
     <string name="block_screen">Block screen capture</string>
     <string name="block_sharing">Block sharing</string>
     <string name="delete_all">Delete all data</string>
+    <string name="delete_all_description">Are you sure you want to delete all your data from the application?</string>
     <string name="saving">Saving…</string>
     <string name="saved">Saved</string>
 
@@ -31,10 +32,6 @@
 
     <string name="created_at">Created on %s</string>
     <string name="edited_at">Edited on %s</string>
-
-    //Constants
-    <string name="foundational_skills_group">Foundational Skills (for developmental challenges)</string>
-    <string name="social_skills_group">Social &amp; Emotional Learning (for all children)</string>
 
     <string name="editor">Editor</string>
     <string name="notes">Notes</string>

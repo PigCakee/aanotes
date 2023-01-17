@@ -52,6 +52,13 @@ class DataStoreManager @Inject constructor(private val context: Context) {
     suspend fun setAuthCooldownSeconds(seconds: Int) = context.dataStore.edit { preferences ->
         preferences[AUTH_COOLDOWN_KEY] = seconds
     }
+
+    suspend fun clearAll() = context.dataStore.edit { preferences ->
+        preferences[AUTH_COOLDOWN_KEY] = 5
+        preferences[SCREEN_CAPTURE_ENABLED_KEY] = false
+        preferences[SHARING_ENABLED_KEY] = false
+        preferences[CURRENT_NOTE_ID_KEY] = 0
+    }
 }
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")

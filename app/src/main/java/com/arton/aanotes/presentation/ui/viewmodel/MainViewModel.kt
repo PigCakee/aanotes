@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.arton.aanotes.data.DataStoreManager
 import com.arton.aanotes.domain.entity.Action
 import com.arton.aanotes.domain.entity.ActionResult
+import com.arton.aanotes.domain.entity.Note
 import com.arton.aanotes.domain.repo.AuthRepository
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +28,11 @@ class MainViewModel @Inject constructor(
     private val actionFlow: MutableStateFlow<Pair<Action?, AuthEvent>?> = MutableStateFlow(null)
     val action = actionFlow.asStateFlow()
 
+    private val shareFlow: MutableStateFlow<Note?> = MutableStateFlow(null)
+    val share = shareFlow.asSharedFlow()
+
+    val screenCaptureEnabled = dataStoreManager.isScreenCaptureEnabled
+
     val actionResult = combine(actionFlow, authFlow) { action, authResult ->
         ActionResult(action?.first, authResult)
     }.stateIn(
@@ -34,6 +40,14 @@ class MainViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = ActionResult(null, false)
     )
+
+    fun onShareEventConsumed() {
+        shareFlow.update { null }
+    }
+
+    fun shareNote(note: Note) {
+        shareFlow.update { note }
+    }
 
     fun fireAuthForAction(action: Action, authEvent: AuthEvent = AuthEvent.AuthenticateAction) {
         actionFlow.update { action to authEvent }

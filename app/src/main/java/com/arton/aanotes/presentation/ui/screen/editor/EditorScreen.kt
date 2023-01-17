@@ -29,12 +29,14 @@ import com.arton.aanotes.presentation.ui.components.Tag
 import com.arton.aanotes.presentation.ui.theme.*
 import com.arton.aanotes.presentation.ui.viewmodel.EditorState
 import com.arton.aanotes.presentation.ui.viewmodel.EditorViewModel
+import com.arton.aanotes.presentation.ui.viewmodel.MainViewModel
 import com.google.accompanist.flowlayout.FlowRow
 import java.util.*
 
 @Composable
 fun EditorScreen(
     editorViewModel: EditorViewModel,
+    mainViewModel: MainViewModel
 ) {
 
     val editorState by editorViewModel.editorState.collectAsState()
@@ -44,7 +46,7 @@ fun EditorScreen(
             isSharingEnabled = editorState.isSharingEnabled,
             isSaving = editorState.isSaving,
             onShareClick = {
-
+                editorState.currentNote?.let { mainViewModel.shareNote(it) }
             })
     }) {
         Column(

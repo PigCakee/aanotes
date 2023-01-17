@@ -1,18 +1,20 @@
 package com.arton.aanotes.presentation.ui.screen.settings
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,6 +22,7 @@ import com.arton.aanotes.R
 import com.arton.aanotes.domain.entity.Action
 import com.arton.aanotes.presentation.ui.activity.contract.AuthEvent
 import com.arton.aanotes.presentation.ui.components.AANotesScaffold
+import com.arton.aanotes.presentation.ui.components.Dialog
 import com.arton.aanotes.presentation.ui.components.SettingsAppBar
 import com.arton.aanotes.presentation.ui.components.SettingsButton
 import com.arton.aanotes.presentation.ui.theme.*
@@ -44,7 +47,8 @@ fun SettingsScreen(
             onAuthRequired = { action, authEvent ->
                 mainViewModel.fireAuthForAction(action, authEvent)
             },
-            onNewAuthCooldown = settingsViewModel::onNewCooldown
+            onNewAuthCooldown = settingsViewModel::onNewCooldown,
+            onDeleteClick = settingsViewModel::deleteAll
         )
     }
 }
@@ -53,8 +57,12 @@ fun SettingsScreen(
 fun SettingsScreenUi(
     settingsState: SettingsViewModel.SettingsState,
     onAuthRequired: (Action, AuthEvent) -> Unit,
-    onNewAuthCooldown: () -> Unit
+    onNewAuthCooldown: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
@@ -187,13 +195,62 @@ fun SettingsScreenUi(
         SettingsButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-
+                showDialog = true
             },
             iconRes = R.drawable.trash,
             textColor = RedError,
             iconColor = RedError,
             text = stringResource(id = R.string.delete_all)
         ) {}
+
+        Dialog(
+            modifier = Modifier.padding(horizontal = 50.dp),
+            showDialog = showDialog,
+            title = stringResource(id = R.string.delete_all),
+            text = stringResource(id = R.string.delete_all_description),
+            onDismiss = { showDialog = false },
+            buttons = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                        .padding(bottom = 12.dp)
+                ) {
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        onClick = { showDialog = false },
+                        shape = RoundedCornerShape(100.dp),
+                        border = BorderStroke(width = 1.dp, color = BlueMain),
+                        colors = ButtonDefaults.buttonColors(containerColor = White)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.cancel),
+                            textAlign = TextAlign.Center,
+                            color = BlueMain,
+                            fontWeight = FontWeight(500),
+                            fontSize = 16.sp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        onClick = { onDeleteClick() },
+                        shape = RoundedCornerShape(100.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = BlueMain)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.ok),
+                            textAlign = TextAlign.Center,
+                            color = White,
+                            fontWeight = FontWeight(500),
+                            fontSize = 16.sp
+                        )
+                    }
+                }
+            }
+        )
     }
 }
 
@@ -201,8 +258,12 @@ fun SettingsScreenUi(
 @Preview
 fun PreviewSettings() {
     AANotesTheme {
-        SettingsScreenUi(onAuthRequired = { action, authEvent ->
+        SettingsScreenUi(
+            onAuthRequired = { action, authEvent ->
 
-        }, settingsState = SettingsViewModel.SettingsState()) {}
+            },
+            settingsState = SettingsViewModel.SettingsState(),
+            onDeleteClick = {},
+            onNewAuthCooldown = {})
     }
 }

@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.Flow
 interface NotesDao {
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :query || '%' OR body LIKE '%' || :query || '%' ORDER BY editedAt DESC")
     fun getNotes(query: String = ""): Flow<List<NoteDto>>
-//
-//    @Query("SELECT * FROM notes")
-//    fun getNotes(): Flow<List<NoteDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(noteDto: NoteDto)
 
     @Delete
     suspend fun deleteNote(noteDto: NoteDto)
+
+    @Query("DELETE FROM notes")
+    suspend fun deleteAll()
 }
