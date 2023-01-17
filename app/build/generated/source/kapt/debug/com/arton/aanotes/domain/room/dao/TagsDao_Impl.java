@@ -6,6 +6,7 @@ import androidx.room.EntityDeletionOrUpdateAdapter;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
+import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
@@ -33,6 +34,8 @@ public final class TagsDao_Impl implements TagsDao {
   private final EntityInsertionAdapter<Tag> __insertionAdapterOfTag;
 
   private final EntityDeletionOrUpdateAdapter<Tag> __deletionAdapterOfTag;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAll;
 
   public TagsDao_Impl(RoomDatabase __db) {
     this.__db = __db;
@@ -66,10 +69,17 @@ public final class TagsDao_Impl implements TagsDao {
         }
       }
     };
+    this.__preparedStmtOfDeleteAll = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "DELETE FROM tags";
+        return _query;
+      }
+    };
   }
 
   @Override
-  public Object insertTag(final Tag tag, final Continuation<? super Unit> arg1) {
+  public Object insertTag(final Tag tag, final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -82,11 +92,11 @@ public final class TagsDao_Impl implements TagsDao {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, continuation);
   }
 
   @Override
-  public Object deleteTag(final Tag tag, final Continuation<? super Unit> arg1) {
+  public Object deleteTag(final Tag tag, final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -99,7 +109,26 @@ public final class TagsDao_Impl implements TagsDao {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, continuation);
+  }
+
+  @Override
+  public Object deleteAll(final Continuation<? super Unit> continuation) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAll.acquire();
+        __db.beginTransaction();
+        try {
+          _stmt.executeUpdateDelete();
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+          __preparedStmtOfDeleteAll.release(_stmt);
+        }
+      }
+    }, continuation);
   }
 
   @Override

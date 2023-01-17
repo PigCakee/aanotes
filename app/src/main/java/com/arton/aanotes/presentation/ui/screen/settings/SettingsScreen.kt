@@ -259,7 +259,7 @@ fun SettingsScreenUi(
 fun PreviewSettings() {
     AANotesTheme {
         SettingsScreenUi(
-            onAuthRequired = { action, authEvent ->
+            onAuthRequired = { _, _ ->
 
             },
             settingsState = SettingsViewModel.SettingsState(),

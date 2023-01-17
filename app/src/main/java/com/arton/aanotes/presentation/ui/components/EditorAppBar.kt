@@ -70,7 +70,7 @@ fun EditorAppBar(
             if (isSharingEnabled) {
                 IconButton(
                     modifier = Modifier
-                        .size(20.dp)
+                        .size(24.dp)
                         .constrainAs(sharing) {
                             top.linkTo(parent.top)
                             end.linkTo(parent.end)
@@ -79,7 +79,7 @@ fun EditorAppBar(
                     onClick = { onShareClick() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_share),
-                        contentDescription = stringResource(id = R.string.action_button),
+                        contentDescription = null,
                     )
                 }
             }
