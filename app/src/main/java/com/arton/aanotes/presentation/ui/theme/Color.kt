@@ -8,6 +8,8 @@ val GreyDark = Color(0xFF827D89)
 val TagInactive = Color(0xFFEFEEF0)
 val TagActive = BlueMain
 val RedError = Color(0xFFCE3A54)
+val YellowHighlight = Color(0xFFFFEB3B)
+val YellowHighlightBackground = Color(0x2DFFEB3B)
 
 
 val Black = Color(0xFF000000)

@@ -10,7 +10,7 @@ import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
-import com.arton.aanotes.domain.entity.Tag;
+import com.arton.aanotes.data.entity.Tag;
 import java.lang.Class;
 import java.lang.Exception;
 import java.lang.Object;

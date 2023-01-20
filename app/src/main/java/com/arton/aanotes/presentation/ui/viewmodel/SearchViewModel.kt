@@ -89,6 +89,7 @@ class SearchViewModel @Inject constructor(
                 val notes = notesRepository.getNotes(query).first()
                 val results = notes.filter { it.tags.containsAll(searchState.selectedTags) }.map { it.mapToEntity() }
                 searchState.copy(
+                    query = query,
                     searchResults = SearchResults(
                         orderedByLastEdit = results,
                         orderedByDate = results.sortedByDescending { it.createdAt },

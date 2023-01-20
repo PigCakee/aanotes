@@ -20,9 +20,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,10 +35,12 @@ import com.arton.aanotes.data.entity.Note
 import com.arton.aanotes.presentation.ui.theme.*
 import java.util.*
 
+@Suppress("DEPRECATION")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteSearchItem(
     modifier: Modifier = Modifier,
+    searchQuery: String,
     note: Note,
     onNoteClick: (Note) -> Unit = {},
     onDeleteNote: (Note) -> Unit = {}
@@ -73,12 +79,37 @@ fun NoteSearchItem(
                     )
                     .then(surfaceModifier)
             ) {
+                val titleSpan = buildAnnotatedString {
+                    if (searchQuery.isNotBlank() && note.title.contains(searchQuery)) {
+                        withStyle(
+                            style = SpanStyle(color = BlueMain),
+                        ) {
+                            val before = note.title.substringBefore(searchQuery)
+                            append(before.substring(before.lastIndexOf(" ") + 1))
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = YellowHighlight,
+                                background = YellowHighlightBackground
+                            ),
+                        ) {
+                            append(searchQuery)
+                        }
+                        withStyle(
+                            style = SpanStyle(color = BlueMain),
+                        ) {
+                            append(note.title.substringAfter(searchQuery))
+                        }
+                    } else {
+                        append(note.title)
+                    }
+                }
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                         .padding(top = 12.dp)
                         .defaultMinSize(minHeight = 40.dp),
-                    text = note.title,
+                    text = titleSpan,
                     color = BlueMain,
                     style = TextStyle(fontSize = 16.sp),
                     maxLines = 2,
@@ -91,12 +122,37 @@ fun NoteSearchItem(
                         .height(1.dp),
                     color = BlueMain
                 )
+                val bodySpan = buildAnnotatedString {
+                    if (searchQuery.isNotBlank() && note.body.contains(searchQuery)) {
+                        withStyle(
+                            style = SpanStyle(color = BlueMain),
+                        ) {
+                            val before = note.body.substringBefore(searchQuery)
+                            append(before.substring(before.lastIndexOf(" ") + 1))
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = YellowHighlight,
+                                background = YellowHighlightBackground
+                            ),
+                        ) {
+                            append(searchQuery)
+                        }
+                        withStyle(
+                            style = SpanStyle(color = BlueMain),
+                        ) {
+                            append(note.body.substringAfter(searchQuery))
+                        }
+                    } else {
+                        append(note.body)
+                    }
+                }
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                         .padding(bottom = 12.dp)
                         .defaultMinSize(minHeight = 60.dp),
-                    text = note.body,
+                    text = bodySpan,
                     color = Black,
                     maxLines = 5,
                     style = TextStyle(fontSize = 10.sp),
@@ -167,7 +223,8 @@ fun PreviewNote() {
                 "Create a mobile app UI Kit that provide a basic notes functionality but with some improvement. Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.",
                 Date(System.currentTimeMillis()),
                 Date(System.currentTimeMillis())
-            )
+            ),
+            searchQuery = "st"
         )
     }
 }

@@ -146,6 +146,7 @@ fun SearchScreenUi(
             ) {
                 AnimatedVisibility(visible = searchState.searchResults.orderedByLastEdit.isNotEmpty()) {
                     NotesRow(
+                        searchQuery = searchState.query,
                         rowTitle = stringResource(id = com.arton.aanotes.R.string.order_last_edit),
                         notes = searchState.searchResults.orderedByLastEdit,
                         onNoteClick = onNoteClick,
@@ -154,6 +155,7 @@ fun SearchScreenUi(
                 }
                 AnimatedVisibility(visible = searchState.searchResults.orderedByDate.isNotEmpty()) {
                     NotesRow(
+                        searchQuery = searchState.query,
                         rowTitle = stringResource(id = com.arton.aanotes.R.string.order_date),
                         notes = searchState.searchResults.orderedByDate,
                         onNoteClick = onNoteClick,
@@ -162,6 +164,7 @@ fun SearchScreenUi(
                 }
                 AnimatedVisibility(visible = searchState.searchResults.orderedAlphabetically.isNotEmpty()) {
                     NotesRow(
+                        searchQuery = searchState.query,
                         rowTitle = stringResource(id = com.arton.aanotes.R.string.order_alphabet),
                         notes = searchState.searchResults.orderedAlphabetically,
                         onNoteClick = onNoteClick,
@@ -175,6 +178,7 @@ fun SearchScreenUi(
 
 @Composable
 fun NotesRow(
+    searchQuery: String,
     rowTitle: String,
     notes: List<Note>,
     onNoteClick: (Note) -> Unit = {},
@@ -207,6 +211,7 @@ fun NotesRow(
         ) {
             itemsIndexed(notes) { _, note ->
                 NoteSearchItem(
+                    searchQuery = searchQuery,
                     note = note,
                     onNoteClick = onNoteClick,
                     onDeleteNote = onNoteDelete
