@@ -62,9 +62,7 @@ class MainActivity : ComponentActivity() {
                             is Action.TurnOnSharing -> {
                                 viewModel.enableSharing(true)
                             }
-                            else -> {
-
-                            }
+                            else -> {}
                         }
                     }
                 }

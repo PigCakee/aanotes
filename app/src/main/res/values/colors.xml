@@ -1,10 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <color name="colorPrimary">#2A69CE</color>
+    <color name="colorPressed">#003C9C</color>
+    <color name="colorSecondary">@color/brand_500</color>
+    <color name="colorBackground">@color/white</color>
+    <color name="colorForeground">@color/white</color>
+    <color name="colorSuccess">#2BCC92</color>
+    <color name="colorError">#FF6666</color>
+    <color name="colorBanner">#FF0000</color>
+    <color name="colorWarning">#F8C749</color>
+
+    <color name="brand_500">#2A69CE</color>
+    <color name="brand_400">#94B4E6</color>
+    <color name="brand_200">#D4E1F5</color>
+
+    <color name="mono_900">#0F0F0F</color>
+    <color name="mono_800">#363636</color>
+    <color name="mono_600">#7B7B7B</color>
+    <color name="mono_500">#A2A2A2</color>
+    <color name="mono_400">#C9C9C9</color>
+    <color name="mono_200">#E7E7E7</color>
+    <color name="mono_50">#F4F4F6</color>
+
+    <color name="white">#FFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Old Colors -->
+
+    <color name="grey_dark">#969BA6</color>
+    <color name="grey_darker">#4F5663</color>
+    <color name="grey_darkest">#303342</color>
+    <color name="grey_light">#C6CCD3</color>
+    <color name="grey_lighter">#EBEEF1</color>
+    <color name="grey_lightest">#F9F9FB</color>
+
+    <color name="colorHeroGray">#546E87</color>
+
+    <color name="green_light">#39AE6A</color>
+    <color name="green_dark">#0F703A</color>
+
+    <color name="orange_light">#F0823A</color>
+    <color name="red">#D63200</color>
+
+    <color name="gold_light">#FFC44D</color>
+    <color name="gold_dark">#FCB119</color>
+
+    <color name="colorTextDisabled">#B1B6BF</color>
+
+    <color name="colorMapCircleSolid">#66B0C7D6</color>
+    <color name="colorMapCircleStroke">#2A69CE</color>
+
+    <color name="colorFireBush">#E78531</color>
+    <color name="colorMediumCarmine">#B93A3A</color>
+    <color name="colorSanJuan">#304B61</color>
+    <color name="colorNeptune">#82B8BD</color>
+
+    <!-- Old Colors -->
+
+    <color name="colorSecondaryVariant">#B0C7D6</color>
+    <color name="colorSecondaryVariant2">#B3DEE5</color>
+    <color name="colorSecondaryVariant3">#2A69CE</color>
+    <color name="colorDisabled">@color/mono_200</color>
+
+    <color name="green_500">#4CAF50</color>
+
+    <color name="grey_400">#BDBDBD</color>
+    <color name="grey_900">#212121</color>
+
+    <color name="colorPrimaryVariant2">#546E87</color>
+    <color name="colorTextPrimary">#303342</color>
+
+    <color name="colorAutoAcceptLight">#2A69CE</color>
+    <color name="colorAutoAcceptDark">#0342A7</color>
+
+    <color name="color_mono_dark_1">#17191C</color>
+    <color name="color_mono_dark_2">#202327</color>
+    <color name="color_mono_dark_3">#30353C</color>
+    <color name="color_mono_dark_4">#404854</color>
+    <color name="color_mono_dark_5">#535F6E</color>
+    <color name="color_mono_dark_6">#8592A3</color>
+    <color name="color_mono_dark_7">#ABAFB3</color>
+
+    <!--    Colors for UI elements  -->
+    <color name="toolbarColor">@color/white</color>
+    <color name="toolbarTextColor">@color/mono_900</color>
+    <color name="toolbarNavIconColor">@color/mono_900</color>
+
+    <color name="textPrimaryColor">@color/mono_900</color>
+    <color name="textSecondaryColor">@color/mono_600</color>
+    <color name="textSelectedColor">@color/colorPrimary</color>
+    <color name="textUnselectedColor">@color/mono_500</color>
+    <color name="textButtonPositiveActiveColor">@color/white</color>
+    <color name="textButtonNegativeColor">@color/colorPrimary</color>
+    <color name="textColorHint">@color/mono_500</color>
+
+    <color name="inputFieldStrokeColor">@color/mono_400</color>
+    <color name="inputFieldStrokeErrorColor">@color/colorError</color>
+    <color name="inputFieldStrokeFocusedColor">@color/colorPrimary</color>
+    <color name="inputFieldTextColor">@color/grey_darker</color>
+
+    <color name="bottomNavBackgroundColor">@color/white</color>
+    <color name="bottomNavIconTextColorSelected">@color/colorPrimary</color>
+    <color name="bottomNavIconTextColorUnselected">@color/mono_900</color>
+
+    <color name="dialogBackgroundColor">@color/white</color>
+    <color name="dialogDragColor">@color/mono_400</color>
+
+    <color name="radioButtonSelectedColor">@color/colorPrimary</color>
+    <color name="radioButtonUnselectedColor">@color/mono_900</color>
+
+    <color name="statusBarColor">@color/white</color>
+    <color name="navigationBarColor">@color/white</color>
+    <color name="windowBackground">@color/white</color>
+
+    <color name="buttonPositiveBackgroundColor">@color/colorPrimary</color>
+    <color name="buttonNegativeBackgroundColor">@color/white</color>
+    <color name="buttonNegativeStrokeColor">@color/colorPrimary</color>
+
+    <color name="listActionButtonSubtitleColor">@color/mono_500</color>
+    <color name="listActionButtonTitleColor">@color/mono_900</color>
+    <color name="listActionButtonBackgroundColor">@color/white</color>
+
+    <color name="dividerColor">@color/mono_200</color>
+    <color name="dividerRidesColor">@color/mono_400</color>
+    <color name="chevronColor">@color/mono_500</color>
+
+    <color name="switchActiveTrackColor">@color/mono_500</color>
+    <color name="switchInactiveTrackColor">@color/mono_200</color>
+    <color name="switchActiveThumbColor">@color/colorPrimary</color>
+    <color name="switchInactiveThumbColor">@color/color_mono_dark_6</color>
+    <color name="barEmptyColor">@color/mono_400</color>
+
+    <color name="logoColor">@color/colorPrimary</color>
+
+    <color name="onlineIdleColor">@color/mono_900</color>
+    <color name="onlineIdleTextActiveColor">@color/white</color>
+
+    <color name="discountColor">@color/mono_900</color>
+
+    <color name="radiusViewColor">@color/mono_900</color>
+    <color name="radiusButtonActiveColor">@color/white</color>
+    <color name="radiusButtonInactiveColor">@color/mono_200</color>
+    <color name="radiusButtonIconActiveColor">@color/colorPrimary</color>
+    <color name="radiusButtonIconInactiveColor">@color/mono_500</color>
+
+    <color name="iconColor">@color/mono_900</color>
+    <color name="iconGreyColor">@color/mono_500</color>
+
+    <color name="recenterButtonColor">@color/colorPrimary</color>
+    <color name="navigationButtonColor">@color/grey_light</color>
+
+    <color name="checkboxColor">@color/mono_900</color>
+    <color name="checkboxUnselectedColor">@color/mono_900</color>
+
+    <color name="stopRequestsInactiveColor">@color/mono_50</color>
+
+    <color name="optionalRideBackgroundColor">@color/mono_800</color>
+    <color name="declineRideBackgroundColor">@color/mono_800</color>
+    <color name="declineRideIconTextColor">@color/white</color>
+
+    <color name="timerBackgroundColor">@color/mono_800</color>
+    <color name="prebookingColor">@color/mono_900</color>
+    <color name="cancelRideAlfaColor">#FFF5F5</color>
+
+    <color name="routeDetailsButtonTint">@color/grey_lightest</color>
+    <color name="routeDetailsStrokeColor">#DBE5E5</color>
+
+    <color name="bubbleBackgroundColor">@color/white</color>
+    <color name="bubbleTextColor">@color/colorPrimary</color>
 </resources>

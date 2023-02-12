@@ -5,7 +5,8 @@ buildscript {
         accompanist_version = '0.25.1'
         nav_version = '2.5.1'
         androidxRoomVersion = '2.4.3'
-        materialVersion = '1.1.0-alpha02'
+        materialComposeVersion = '1.1.0-alpha02'
+        materialVersion = '1.8.0'
         composeConstraintVersion = '1.0.1'
         activityComposeVersion = '1.6.1'
         viewModelComposeVersion = '2.5.1'
@@ -28,7 +29,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.0'
+        classpath 'com.android.tools.build:gradle:7.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.44.2'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"

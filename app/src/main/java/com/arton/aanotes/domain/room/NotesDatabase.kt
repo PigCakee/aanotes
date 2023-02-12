@@ -39,7 +39,7 @@ abstract class NotesDatabase : RoomDatabase() {
                     .openHelperFactory(factory)
                     .allowMainThreadQueries()
                     .addMigrations(*MigrationHelper.getMigrations())
-                    .build() // TODO prepopulate db with tags
+                    .build()
             }
 
             return requireNotNull(INSTANCE)

@@ -35,13 +35,6 @@ class AuthActivity : FragmentActivity() {
             .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
     }
 
-    private val biometricsIgnoredErrors = listOf(
-        BiometricPrompt.ERROR_NEGATIVE_BUTTON,
-        BiometricPrompt.ERROR_CANCELED,
-        BiometricPrompt.ERROR_USER_CANCELED,
-        BiometricPrompt.ERROR_NO_BIOMETRICS
-    )
-
     @Suppress("DEPRECATION")
     private val authEvent: AuthEvent by lazy {
         val event: AuthEvent? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -106,11 +99,7 @@ class AuthActivity : FragmentActivity() {
                 override fun onAuthenticationError(
                     errorCode: Int,
                     errString: CharSequence
-                ) {
-                    if (errorCode !in biometricsIgnoredErrors) {
-
-                    }
-                }
+                ) {}
 
                 override fun onAuthenticationSucceeded(
                     result: BiometricPrompt.AuthenticationResult
@@ -119,8 +108,7 @@ class AuthActivity : FragmentActivity() {
                     finish()
                 }
 
-                override fun onAuthenticationFailed() {
-                }
+                override fun onAuthenticationFailed() {}
             }
         )
         biometricPrompt.authenticate(

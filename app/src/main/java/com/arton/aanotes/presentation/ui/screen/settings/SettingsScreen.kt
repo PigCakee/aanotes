@@ -236,7 +236,10 @@ fun SettingsScreenUi(
 
                     Button(
                         modifier = Modifier.weight(1f),
-                        onClick = { onDeleteClick() },
+                        onClick = {
+                            showDialog = false
+                            onDeleteClick()
+                        },
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = BlueMain)
                     ) {
